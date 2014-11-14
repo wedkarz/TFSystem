@@ -1,0 +1,11 @@
+activator
+activator-launch-1.2.10.jar
+activator.bat
+project/project
+project/target
+target/
+tmp/
+.eclipse
+.cache
+test-result
+logs/
