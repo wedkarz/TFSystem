@@ -9,3 +9,4 @@ tmp/
 .cache
 test-result
 logs/
+.idea*

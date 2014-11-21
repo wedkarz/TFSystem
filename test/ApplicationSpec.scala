@@ -1,3 +1,4 @@
+import org.junit.Ignore
 import org.specs2.mutable._
 import org.specs2.runner._
 import org.junit.runner._
@@ -10,6 +11,7 @@ import play.api.test.Helpers._
  * You can mock out a whole application including requests, plugins etc.
  * For more information, consult the wiki.
  */
+@Ignore
 @RunWith(classOf[JUnitRunner])
 class ApplicationSpec extends Specification {
 
