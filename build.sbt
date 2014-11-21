@@ -4,6 +4,10 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
+ideaExcludeFolders += ".idea"
+
+ideaExcludeFolders += ".idea_modules"
+
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
