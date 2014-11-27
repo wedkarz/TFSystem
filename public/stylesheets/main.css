@@ -1,0 +1,17 @@
+#header {
+	margin-left: 250px;
+}
+
+#eventList {
+	margin-left: 200px;
+}
+
+.buttons {
+	float: right;
+	margin-top: -55px;
+}
+
+.buttons button {
+	width: 100px;
+	margin-bottom: 5px;
+}

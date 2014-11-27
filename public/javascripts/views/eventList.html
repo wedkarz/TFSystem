@@ -1,0 +1,39 @@
+<div ng-controller="eventListCtrl">
+	<div id="header">
+		<h1>
+			<span class="text-muted">Tech Feast Events</span>
+		</h1>
+	</div>
+	<br>
+	<div id="eventList">
+		<div class="col-xs-6">
+			<div class="well" ng-repeat="item in data | orderBy: 'date'">
+				<h2>
+					<strong>{{$index + 1}}</strong>
+						<span class="label label-primary">
+							{{item.event.date}}
+						</span>
+				</h2>
+				<div class="buttons">
+					<button class="btn btn-primary">Show details</button>
+					<br>
+					<button class="btn btn-danger">Delete</button>
+				</div>				
+				<div ng-repeat="presentation in item.presentations | orderBy: 'time'">
+					<h3>
+						<span class="text-muted">
+								{{$index + 1}}
+						</span>
+						<span class="text-primary">
+								{{presentation.time}}
+						</span>	
+						<span class="text-info">
+								{{presentation.name}}
+						</span>
+					</h3>
+				</div>			
+			</div>
+	
+		</div>
+	</div>
+</div>
