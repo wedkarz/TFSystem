@@ -10,3 +10,10 @@ tmp/
 test-result
 logs/
 .idea*
+/bin
+.classpath
+.project
+.settings/
+logs/
+app/models/test.sc
+.worksheet/
