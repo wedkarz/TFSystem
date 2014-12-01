@@ -3,9 +3,11 @@
 # ~~~~
 
 # Home page
-GET     /                    controllers.Application.index()
+GET     /                           controllers.Application.index()
 
-GET		/events				 controllers.Events.getAllEvents()	
+GET		/events				        controllers.Events.getAllEvents()
+
+POST    /authentication/login		controllers.Authentication.login
 
 # Map the JS resource paths
-GET     /*file               controllers.Assets.versioned(path="/public", file: Asset)
+GET     /*file                      controllers.Assets.versioned(path="/public", file: Asset)

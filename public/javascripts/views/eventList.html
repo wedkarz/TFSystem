@@ -1,3 +1,30 @@
+<nav ng-controller="navBarCtrl" class="navbar navbar-inverse navbar-fixed-top navbar-left" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Tech Feast System</a>
+        </div>
+        <form class="navbar-form navbar-right" role="form" ng-controller="authenticationCtrl" ng-submit="submit()">
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="UUID" ng-model="UUID" required>
+                <pre>CONFIRMED={{confirmedUUID}}</pre>
+            </div>
+            <button type="submit" class="btn btn-default">Login</button>
+        </form>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="#">Schedule</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<br>
+<br>
 <div ng-controller="eventListCtrl">
 	<div id="header">
 		<h1>
@@ -18,7 +45,7 @@
 					<button class="btn btn-primary">Show details</button>
 					<br>
 					<button class="btn btn-danger">Delete</button>
-				</div>				
+				</div>
 				<div ng-repeat="presentation in item.presentations | orderBy: 'time'">
 					<h3>
 						<span class="text-muted">
@@ -26,14 +53,14 @@
 						</span>
 						<span class="text-primary">
 								{{presentation.time}}
-						</span>	
+						</span>
 						<span class="text-info">
 								{{presentation.name}}
 						</span>
 					</h3>
-				</div>			
+				</div>
 			</div>
-	
+
 		</div>
 	</div>
 </div>
