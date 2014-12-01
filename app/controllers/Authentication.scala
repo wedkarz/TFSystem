@@ -8,6 +8,10 @@ import play.api.data.Forms._
 import play.api._
 import play.api.mvc._
 import helpers.UUIDUtils
+import rapture.io._
+import rapture.core._
+import rapture.json._
+import jsonBackends.spray._
 
 object Authentication extends Controller {
 
@@ -26,8 +30,8 @@ object Authentication extends Controller {
     val token = loginForm.bindFromRequest.get
     val user:Option[User] = UsersManager.findByUUID(token)
     user match {
-      case Some(user) => Ok(views.html.index())
-      case None => Forbidden("I don't know you")
+      case Some(user) => Ok(Json(user).toString)
+      case None => Forbidden("Invalid UUID")
     }
   }
 }
