@@ -1,5 +1,5 @@
 angular.module("events")
-	.constant('eventListUrl', '/events')
+	.constant('eventListUrl', '/eventList')
 	.controller('eventListCtrl', function ($scope, $http, eventListUrl){
 		
 		$scope.data = {};
