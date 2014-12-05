@@ -30,7 +30,7 @@ object Authentication extends Controller {
     val token = loginForm.bindFromRequest.get
     val user:Option[User] = UsersManager.findByUUID(token)
     user match {
-      case Some(user) => Ok(Json(user).toString)
+      case Some(user) => Ok(Json(user).toString).withSession("user" -> user.email)
       case None => Forbidden("Invalid UUID")
     }
   }

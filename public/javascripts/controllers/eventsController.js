@@ -1,6 +1,6 @@
 angular.module("events")
 	.constant('eventListUrl', '/events')
-	.controller('eventListCtrl', function ($scope, $http, eventListUrl){
+	.controller('eventListCtrl', function ($scope, $rootScope, $http, eventListUrl){
 		
 		$scope.data = {};
 
@@ -12,30 +12,44 @@ angular.module("events")
 				$scope.data.error = error;
 			});
 	})
-	.controller('navBarCtrl', function ($scope, $http){
-    		$scope.data = {};
-    	})
-    .controller('authenticationCtrl', function ($scope, $http) {
-            $scope.UUID = "";
-            $scope.confirmedUUID = "";
+	.controller('navBarCtrl', function ($scope, $rootScope, $http){
+            $rootScope.user = {};
+	})
+    .controller('authenticationCtrl', function ($scope, $rootScope, $http, AuthenticationService) {
+            $scope.user = $rootScope.user;
 
             $scope.submit = function() {
-                if ($scope.UUID) {
-                    $scope.confirmedUUID = this.UUID;
-
-                    $http.post('/authentication/login', {token: $scope.confirmedUUID}).
-                      success(function(data, status, headers, config) {
-                        // this callback will be called asynchronously
-                        // when the response is available
-
-                        $scope.confirmedUUID = data.email + " authenticated!";
-                      }).
-                      error(function(data, status, headers, config) {
-                        // called asynchronously if an error occurs
-                        // or server returns response with an error status.
-
-                        $scope.confirmedUUID = "failure";
-                      });
-                }
+                var promise = AuthenticationService.login($scope.UUID);
+                promise.then(function(payload) {
+                                           $rootScope.user = payload.data;
+                                           $rootScope.user.isAuthenticated = true;
+                                       },
+                                       function(errorPayload) {
+                                           $log.error('failure loading movie', errorPayload);
+                                       })
             };
     })
+    .factory('AuthenticationService', function($http, $q) {
+           var user = {};
+          
+           var login = function (uuid) {
+             var deferred = $q.defer();
+          
+             $http.post("/authentication/login", {
+               token: uuid
+             }).then(function(result) {
+               user = result;
+               user.isAuthenticated = true;
+               deferred.resolve(user);
+             }, function(error) {
+               deferred.reject(error);
+             });
+          
+             return deferred.promise;
+           }
+          
+           return {
+             login: login,
+             user: user
+           };
+         });
