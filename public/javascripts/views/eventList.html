@@ -11,12 +11,12 @@
         </div>
             <div data-ng-switch="user.isAuthenticated" data-ng-cloak>
                 <div data-ng-switch-when="true">
-                    <form class="navbar-form navbar-right" role="form" data-ng-submit="submit()" data-ng-controller="authenticationCtrl">
+                    <form class="navbar-form navbar-right" role="form" data-ng-submit="logout()" data-ng-controller="authenticationCtrl">
                         <button type="submit" class="btn btn-default">Logout {{user.email}}</button>
                     </form>
                 </div>
                 <div data-ng-switch-default>
-                    <form class="navbar-form navbar-right" role="form" data-ng-submit="submit()" data-ng-controller="authenticationCtrl">
+                    <form class="navbar-form navbar-right" role="form" data-ng-submit="login()" data-ng-controller="authenticationCtrl">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="UUID" data-ng-model="UUID" required>
                         </div>
@@ -52,7 +52,7 @@
 							{{item.event.date}}
 						</span>
 				</h2>
-				<div class="buttons">
+				<div class="buttons" ng-show="user.isAuthenticated">
 					<button class="btn btn-primary">Show details</button>
 					<br>
 					<button class="btn btn-danger">Delete</button>

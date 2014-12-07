@@ -12,44 +12,60 @@ angular.module("events")
 				$scope.data.error = error;
 			});
 	})
-	.controller('navBarCtrl', function ($scope, $rootScope, $http){
-            $rootScope.user = {};
+	.controller('navBarCtrl', function ($rootScope, AuthenticationService){
+            $rootScope.user = AuthenticationService.user;
 	})
     .controller('authenticationCtrl', function ($scope, $rootScope, $http, AuthenticationService) {
-            $scope.user = $rootScope.user;
+            $scope.login = function() {
+                AuthenticationService.login($scope.UUID)
+                    .success(function (data) {
+                        $rootScope.user = data;
+                        $rootScope.isAuthenticated = true;
+                    })
+                    .error(function (error) {
+                    });
+            }
 
-            $scope.submit = function() {
-                var promise = AuthenticationService.login($scope.UUID);
-                promise.then(function(payload) {
-                                           $rootScope.user = payload.data;
-                                           $rootScope.user.isAuthenticated = true;
-                                       },
-                                       function(errorPayload) {
-                                           $log.error('failure loading movie', errorPayload);
-                                       })
-            };
+            $scope.logout = function() {
+                AuthenticationService.logout()
+                    .success(function (data) {
+                        $rootScope.user = {};
+                                        })
+                                        .error(function (error) {
+                                        $rootScope.user = {};
+                                        });
+            }
     })
-    .factory('AuthenticationService', function($http, $q) {
-           var user = {};
+    .factory('AuthenticationService', function($http, $q, $cookieStore) {
+          var user = $cookieStore.get('user');
           
-           var login = function (uuid) {
-             var deferred = $q.defer();
-          
-             $http.post("/authentication/login", {
-               token: uuid
-             }).then(function(result) {
-               user = result;
-               user.isAuthenticated = true;
-               deferred.resolve(user);
-             }, function(error) {
-               deferred.reject(error);
-             });
-          
-             return deferred.promise;
-           }
-          
-           return {
-             login: login,
-             user: user
-           };
-         });
+          var login = function (uuid) {
+                return $http.post("/authentication/login", { token: uuid })
+                            .success(function (data) {
+                                user = data;
+                                user.isAuthenticated = true;
+                                $cookieStore.put('user',user);
+          			         })
+                            .error(function (error) {
+
+                            });
+         }
+
+         var logout = function() {
+                return $http.post("/authentication/logout")
+                            .success(function (data) {
+                                         user = {};
+                                         $cookieStore.remove('user');
+                   			         })
+                                     .error(function (error) {
+                                         user = {};
+                                         $cookieStore.remove('user');
+                                     });
+         }
+
+         return {
+            login: login,
+            logout: logout,
+            user: user
+         };
+    });
