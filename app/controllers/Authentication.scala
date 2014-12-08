@@ -23,15 +23,19 @@ object Authentication extends Controller {
 //  }
 
   val loginForm = Form(
-      "token" -> text
+      "uuid" -> text
   )
 
   def login = Action { implicit request =>
-    val token = loginForm.bindFromRequest.get
-    val user:Option[User] = UsersManager.findByUUID(token)
+    val uuid = loginForm.bindFromRequest.get
+    val user:Option[User] = UsersManager.findByUUID(uuid)
     user match {
       case Some(user) => Ok(Json(user).toString).withSession("user" -> user.email)
       case None => Forbidden("Invalid UUID")
     }
+  }
+
+  def logout = Action { implicit request =>
+    Ok("Bye").withNewSession
   }
 }

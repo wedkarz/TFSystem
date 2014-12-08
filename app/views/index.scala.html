@@ -24,9 +24,12 @@
         			});	
         		}); 
         </script>	
+        <script src="@routes.Assets.versioned("javascripts/controllers/applicationController.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/controllers/authenticationController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/eventsController.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/controllers/services.js")"></script>
     </head>
-    <body>
+    <body ng-controller="ApplicationCtrl">
     	<ng-view />
     </body>
 </html>
