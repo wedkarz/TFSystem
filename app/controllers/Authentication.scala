@@ -14,14 +14,6 @@ import rapture.json._
 import jsonBackends.spray._
 
 object Authentication extends Controller {
-
-//  def login(token: UUID) = Action { implicit request =>
-//
-//    if(token.toString == "D4BC5B90-78E7-11E4-82F8-0800200C9A66")
-
-//      Ok(true)
-//  }
-
   val loginForm = Form(
       "uuid" -> text
   )
