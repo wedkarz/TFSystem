@@ -50,10 +50,11 @@ angular.module("events")
                 $scope.currentUser = user;
             };
 
-            var storedUser = JSON.parse($cookieStore.get('user'));
+            var storedUser = $cookieStore.get('user');
             if(storedUser) {
-                AuthService.recreateSession(storedUser);
-                $scope.setCurrentUser(storedUser);
+                var user = JSON.parse(storedUser);
+                AuthService.recreateSession(user);
+                $scope.setCurrentUser(user);
                 $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
             }
      	});
