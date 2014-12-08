@@ -30,12 +30,20 @@ object Authentication extends Controller {
     val uuid = loginForm.bindFromRequest.get
     val user:Option[User] = UsersManager.findByUUID(uuid)
     user match {
-      case Some(user) => Ok(Json(user).toString).withSession("user" -> user.email)
+      case Some(user) => Ok(Json(user).toString).withSession("user" -> Json(user).toString)
       case None => Forbidden("Invalid UUID")
     }
   }
 
   def logout = Action { implicit request =>
     Ok("Bye").withNewSession
+  }
+
+  def restoreSession = Action { implicit request =>
+    request.session.get("user").map { user =>
+      Ok(user)
+    }.getOrElse {
+      Unauthorized("User session not found.")
+    }
   }
 }

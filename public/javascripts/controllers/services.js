@@ -35,8 +35,13 @@ angular.module("events")
                 });
             };
 
-      authService.recreateSession = function(user) {
-            Session.create("sessionId", user.email, user.token, user.role);
+      authService.restoreSession = function () {
+                                            return $http
+                                              .post(URLS.restoreSession)
+                                              .then(function (res) {
+                                                Session.create("sessionId", res.data.email, res.data.token, res.data.role);
+                                                return res.data;
+                                              });
       }
 
       authService.isAuthenticated = function () {

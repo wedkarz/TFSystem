@@ -1,7 +1,8 @@
 angular.module("events")
     .constant('URLS', {
       login: '/authentication/login',
-      logout: '/authentication/logout'
+      logout: '/authentication/logout',
+      restoreSession: '/authentication/restoreSession'
     })
     .constant('AUTH_EVENTS', {
       loginSuccess: 'auth-login-success',
@@ -50,11 +51,18 @@ angular.module("events")
                 $scope.currentUser = user;
             };
 
-            var storedUser = $cookieStore.get('user');
-            if(storedUser) {
-                var user = JSON.parse(storedUser);
-                AuthService.recreateSession(user);
-                $scope.setCurrentUser(user);
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            }
+            AuthService.restoreSession()
+                                .then(function (user) {
+                                      $scope.setCurrentUser(user);
+                                      $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                                    }, function () {
+                                      $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                                    });
+//            var storedUser = $cookieStore.get('user');
+//            if(storedUser) {
+//                var user = JSON.parse(storedUser);
+//                AuthService.recreateSession(user);
+//                $scope.setCurrentUser(user);
+//                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+//            }
      	});
