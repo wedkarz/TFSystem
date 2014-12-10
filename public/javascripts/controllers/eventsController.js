@@ -1,7 +1,6 @@
 angular.module("events")
 	.constant('eventListUrl', '/eventList')
 	.controller('eventListCtrl', function ($scope, $http, eventListUrl){
-		
 		$scope.data = {};
 
 		$http.get(eventListUrl)
@@ -11,4 +10,4 @@ angular.module("events")
 			.error(function (error) {
 				$scope.data.error = error;
 			});
-	})
+	});

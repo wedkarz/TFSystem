@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html ng-app="events">
     <head>
     	<meta charset="utf-8">
@@ -11,8 +10,9 @@
 			href="@routes.Assets.versioned("images/favicon.png")">
 		<script src="@routes.Assets.versioned("lib/angularjs/angular.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-route.js")"/></script>
+		<script src="@routes.Assets.versioned("lib/angularjs/angular-cookies.js")"/></script>
         <script>
-        	angular.module("events", ["ngRoute"])
+        	angular.module("events", ["ngRoute", "ngCookies"])
         		.config(function ($routeProvider) {
         			
         			$routeProvider.when("/events", {
@@ -24,9 +24,12 @@
         			});	
         		}); 
         </script>	
+        <script src="@routes.Assets.versioned("javascripts/controllers/applicationController.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/controllers/authenticationController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/eventsController.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/controllers/services.js")"></script>
     </head>
-    <body>
+    <body ng-controller="ApplicationCtrl">
     	<ng-view />
     </body>
 </html>

@@ -4,10 +4,6 @@ version := "1.0-SNAPSHOT"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-ideaExcludeFolders += ".idea"
-
-ideaExcludeFolders += ".idea_modules"
-
 libraryDependencies ++= Seq(
   jdbc,
   anorm,
@@ -21,5 +17,7 @@ libraryDependencies ++= Seq(
   "joda-time" % "joda-time" % "2.3",
   "com.typesafe.slick" %% "slick" % "2.0.0",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
-  "org.scalatest" %% "scalatest" % "2.2.0" % "test"
+  "org.scalatest" %% "scalatest" % "2.2.0" % "test",
+  "com.propensive" %% "rapture-io" % "0.9.0",
+  "com.propensive" %% "rapture-json-spray" % "1.0.8"
 )
