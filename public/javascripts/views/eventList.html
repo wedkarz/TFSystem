@@ -45,15 +45,16 @@
 	<br>
 	<div id="eventList">
 		<div class="col-xs-6">
-			<div class="well" ng-repeat="item in data | orderBy: 'date'">
+			<div class="well" ng-repeat="item in data | orderBy: 'event.date'">
 				<h2>
 					<strong>{{$index + 1}}</strong>
 						<span class="label label-primary">
-							{{item.event.date}}
-						</span>
+							{{formatDate(item.event.date) }}							
+							{{item.event.place}}
+						</span>					
 				</h2>
 				<div class="buttons" ng-if="isAuthorized([userRoles.presenter, userRoles.superuser])">
-					<button class="btn btn-primary" ng-if="isAuthorized([userRoles.presenter, userRoles.superuser])">Show details</button>
+					<button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorized([userRoles.presenter, userRoles.superuser])">Edit</button>
 					<br>
 					<button class="btn btn-danger" ng-if="isAuthorized(userRoles.superuser)">Delete</button>
 				</div>

@@ -1,7 +1,5 @@
 # --- !Ups
 
-create table "USERS" ("EMAIL" VARCHAR(254) NOT NULL PRIMARY KEY,"TOKEN" VARCHAR(254), "ROLE" VARCHAR(254));
-
 INSERT INTO "USERS" VALUES ('dominik.kwiatkowski@example.com', 'D4BC5B90-78E7-11E4-82F8-0800200C9A66', 'superuser');
 INSERT INTO "USERS" VALUES ('jakub.nowicki@example.com', 'BAD8CE60-78FC-11E4-82F8-0800200C9A66', 'superuser');
 INSERT INTO "USERS" VALUES ('aleksander.bołt@example.com', 'C82DE460-78FC-11E4-82F8-0800200C9A66', 'superuser');
@@ -17,4 +15,3 @@ INSERT INTO "USERS" VALUES ('user.artur.rybak@example.com', '2BF0EEF0-7F0D-11E4-
 
 # --- !Downs
 
-drop table "USERS";

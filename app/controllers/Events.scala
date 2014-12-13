@@ -13,14 +13,28 @@ import java.sql.Date
 object Events extends Controller {
  
   implicit val eventWithPresentationsFormat = Serializers.EventWithPresentationsFormat
+  implicit val eventFormat = Serializers.EventFormat
   
   def getAllEvents = Action { 
         
-    val eventList = DatabaseConfig.db.withSession { implicit session =>
-    	EventsManager.getAllEventsWithPresentations
-    }
-    
+    val eventList = EventsManager.getAllEventsWithPresentations
+       
     Ok(Json.toJson(eventList))
+  }
+  
+  def getEvent(id: Long) = Action {
+    
+	val event = EventsManager.getEventWithPresentations(id)
+	
+	Ok(Json.toJson(event))  
+  }
+  
+  def updateEvent(id: Long) = Action { implicit request =>
+    val eventJson = request.body
+    val toUpdate = eventJson.asJson.get.as[EventWithPresentations]
+    EventsManager.updateEvent(id, toUpdate.event)
+    PresentationsManager.updatePresentations(toUpdate.presentations.get, id)
+    Ok(Json.toJson("success"))
   }
 
 }

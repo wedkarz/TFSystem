@@ -6,16 +6,16 @@ import org.joda.time.DateTime
 import scala.slick.driver.PostgresDriver.simple._
 import play.api.libs.json._
 
-case class User (token: String, email: String, role: String) {
+case class User (email: String, token: String, role: String) {
 }
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") {
 
-  def email = column[String]("EMAIL", O.PrimaryKey, O.AutoInc)
+  def email = column[String]("EMAIL", O.PrimaryKey)
   def token = column[String]("TOKEN")
   def role = column[String]("ROLE")
 
-  def * =  (token, email, role) <> (User.tupled, User.unapply)
+  def * =  (email, token, role) <> (User.tupled, User.unapply)
 
 }
 object UsersManager {

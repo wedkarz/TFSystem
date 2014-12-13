@@ -5,7 +5,11 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-GET		/eventList			 controllers.Events.getAllEvents()	
+GET		/eventList			 		controllers.Events.getAllEvents()	
+
+GET		/event/:id					controllers.Events.getEvent(id: Long)
+
+PUT		/event/:id					controllers.Events.updateEvent(id: Long)
 
 POST    /authentication/login		controllers.Authentication.login
 
