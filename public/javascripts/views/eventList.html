@@ -8,6 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">Tech Feast System</a>
+            <a class="navbar-brand" href="#/superPanel" ng-if="isAuthorized([userRoles.superuser])">Super-organizator panel</a>
         </div>
             <div data-ng-switch="!!currentUser" data-ng-cloak>
                 <div data-ng-switch-when="true">

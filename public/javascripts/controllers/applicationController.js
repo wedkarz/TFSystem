@@ -40,6 +40,14 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
             controller: "eventEditCtrl"
         });
 
+        $routeProvider.when("/superPanel", {
+            templateUrl: "javascripts/views/superPanel.html"    
+        });
+
+        $routeProvider.when("/users", {
+            templateUrl: "javascripts/views/users.html"
+        });
+
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl"
@@ -59,7 +67,7 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
             }
         };
     })
-    .controller('ApplicationCtrl', function($scope, $rootScope, $cookieStore, AuthService, AUTH_EVENTS, USER_ROLES) {
+    .controller('ApplicationCtrl', function($scope, $rootScope, $cookieStore, $location, AuthService, AUTH_EVENTS, USER_ROLES) {
         $scope.currentUser = null;
 
         $scope.userRoles = USER_ROLES;
@@ -76,4 +84,23 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
             }, function() {
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
+
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            
+            //restrict views which begin with '/event/' for not superusers; redirect them to events list
+            if (next.$$route && next.$$route.originalPath.match('^\/event\/') 
+                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
+                $location.path('/eventList');
+            }
+
+            if (next.$$route && next.$$route.originalPath.match('^\/superPanel') 
+                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
+                $location.path('/eventList');
+            }
+
+            if (next.$$route && next.$$route.originalPath.match('^\/users') 
+                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
+                $location.path('/eventList');
+            }
+        });
     });

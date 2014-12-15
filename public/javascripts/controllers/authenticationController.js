@@ -22,4 +22,5 @@ angular.module("techFeast")
                     $rootScope.$broadcast(AUTH_EVENTS.logoutFailed);
                 });
         }
+
     });
