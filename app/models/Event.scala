@@ -7,6 +7,7 @@ import java.sql.Date
 
 case class Event (id: Option[Long] = None, date: Date, place: String)
 
+// this is not being persisted. It's only for json processing purpose.
 case class EventWithPresentations(event: Event, presentations: Option[List[Presentation]])
 
 class Events(tag: Tag) extends Table[Event](tag, "EVENTS") {
@@ -50,7 +51,7 @@ object EventsManager {
   def getAllEventsWithPresentations: List[EventWithPresentations] = {
     DatabaseConfig.db.withSession { implicit session =>
     	
-      	val query = events leftJoin PresentationsManager.presentations on (_.id === _.eventId)
+      val query = events leftJoin PresentationsManager.presentations on (_.id === _.eventId)
     	val results: List[(Event, Presentation)] = query.list
     	mapToEventWithPresenationsList(results)
     } 

@@ -24,9 +24,9 @@ object Events extends Controller {
   
   def getEvent(id: Long) = Action {
     
-	val event = EventsManager.getEventWithPresentations(id)
+	  val event = EventsManager.getEventWithPresentations(id)
 	
-	Ok(Json.toJson(event))  
+	  Ok(Json.toJson(event))  
   }
   
   def updateEvent(id: Long) = Action { implicit request =>
