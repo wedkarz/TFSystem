@@ -5,16 +5,18 @@ import scala.slick.driver.PostgresDriver.simple._
 import play.api.libs.json._
 import java.sql.Date
 
-case class Event (id: Option[Long] = None, date: Date) {
+case class Event (id: Option[Long] = None, date: Date, place: String)
 
-}
+// this is not being persisted. It's only for json processing purpose.
+case class EventWithPresentations(event: Event, presentations: Option[List[Presentation]])
 
 class Events(tag: Tag) extends Table[Event](tag, "EVENTS") {
   
   def id = column[Long]("ID", O.PrimaryKey, O.AutoInc)
   def date = column[Date]("DATE")
+  def place = column[String]("PLACE")
   
-  def * =  (id.?, date) <> (Event.tupled, Event.unapply _)  
+  def * =  (id.?, date, place) <> (Event.tupled, Event.unapply _)  
     
 }
 
@@ -28,18 +30,40 @@ object EventsManager {
     }
   }
   
-  def getAllEventsWithPresentations: List[(Event, List[Presentation])] = {
+  def getEventWithPresentations(id: Long): EventWithPresentations = {
+    DatabaseConfig.db.withSession { implicit session =>
+    	val query = events leftJoin PresentationsManager.presentations on (_.id === _.eventId) filter (_._1.id === id)
+    	val results = query.list
+    	EventWithPresentations(results(0)._1, Some(mapToPresentationList(results)))
+    }
+  }
+  
+  def mapToPresentationList(results: List[(Event, Presentation)]): List[Presentation] = {
+    results.map(row => row._2).filter(p => p.id != None)
+  }
+  
+  def updateEvent(id: Long, event: Event) = {
+    DatabaseConfig.db.withSession{ implicit session =>
+      events.filter(_.id === id).update(event)	  
+    }
+  }
+  
+  def getAllEventsWithPresentations: List[EventWithPresentations] = {
     DatabaseConfig.db.withSession { implicit session =>
     	
-      	val query = events leftJoin PresentationsManager.presentations on (_.id === _.eventId)
-    	val results = query.list
-    	results.map(row => (row._1, mapPresentationToList(row._2)))
-    			.map(row => (row._1, results.filter(x => row._1.id == x._2.eventId).unzip._2)).distinct
+      val query = events leftJoin PresentationsManager.presentations on (_.id === _.eventId)
+    	val results: List[(Event, Presentation)] = query.list
+    	mapToEventWithPresenationsList(results)
     } 
   }
   
-  def mapPresentationToList(p: Presentation) = p.id match {
-    case None => List()
-    case _ => List(p)
+  def mapToEventWithPresenationsList(results: List[(Event, Presentation)]): List[EventWithPresentations] = {
+    val distinctEvents: List[Event] = results.unzip._1.distinct
+    val presentations: List[Presentation] = results.unzip._2
+    distinctEvents.map(event => EventWithPresentations(event, Some(presentations.filter(p => p.eventId == event.id))))
   }
+  
 }
+
+
+

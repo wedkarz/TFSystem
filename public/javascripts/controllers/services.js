@@ -1,4 +1,4 @@
-angular.module("events")
+angular.module("techFeast")
     .service('Session', function () {
           this.create = function (sessionId, userEmail, userUUID, userRole) {
             this.id = sessionId;

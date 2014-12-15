@@ -3,15 +3,19 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
+GET     /                           		controllers.Application.index()
 
-GET		/eventList			 controllers.Events.getAllEvents()	
+GET		/eventList			 				controllers.Events.getAllEvents()	
 
-POST    /authentication/login		controllers.Authentication.login
+GET		/event/:id							controllers.Events.getEvent(id: Long)
 
-POST    /authentication/logout		controllers.Authentication.logout
+PUT		/event/:id							controllers.Events.updateEvent(id: Long)
+
+POST    /authentication/login				controllers.Authentication.login
+
+POST    /authentication/logout				controllers.Authentication.logout
 
 POST    /authentication/restoreSession		controllers.Authentication.restoreSession
 
 # Map the JS resource paths
-GET     /*file                      controllers.Assets.versioned(path="/public", file: Asset)
+GET     /*file                      		controllers.Assets.versioned(path="/public", file: Asset)

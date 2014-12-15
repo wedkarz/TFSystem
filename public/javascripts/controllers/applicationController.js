@@ -1,4 +1,5 @@
-angular.module("events")
+
+angular.module("techFeast", ["ngRoute", "ngCookies"])
     .constant('URLS', {
         login: '/authentication/login',
         logout: '/authentication/logout',
@@ -19,13 +20,30 @@ angular.module("events")
         presenter: 'presenter',
         superuser: 'superuser'
     })
-    .config(function($httpProvider) {
+    .config(function ($httpProvider) {
         $httpProvider.interceptors.push([
             '$injector',
             function($injector) {
                 return $injector.get('AuthInterceptor');
             }
         ]);
+    })
+    .config(function ($routeProvider) {
+        
+        $routeProvider.when("/events", {
+            templateUrl: "javascripts/views/eventList.html",
+            controller: "eventListCtrl"
+        });
+
+        $routeProvider.when("/event/edit/:id", {
+            templateUrl: "javascripts/views/eventEdit.html",
+            controller: "eventEditCtrl"
+        });
+
+        $routeProvider.otherwise({
+            templateUrl: "javascripts/views/eventList.html",
+            controller: "eventListCtrl"
+        }); 
     })
     .factory('AuthInterceptor', function($rootScope, $q,
         AUTH_EVENTS) {
@@ -41,7 +59,7 @@ angular.module("events")
             }
         };
     })
-    .controller('ApplicationCtrl', function($scope, $rootScope, $cookieStore, AuthService, AUTH_EVENTS, USER_ROLES) {
+    .controller('ApplicationCtrl', function($scope, $rootScope, $cookieStore, $location, AuthService, AUTH_EVENTS, USER_ROLES) {
         $scope.currentUser = null;
 
         $scope.userRoles = USER_ROLES;
@@ -58,4 +76,13 @@ angular.module("events")
             }, function() {
                 $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
+
+        $rootScope.$on('$routeChangeStart', function (event, next) {
+            
+            //restrict views which begin with '/event/' for not superusers; redirect them to events list
+            if (next.$$route && next.$$route.originalPath.match('^\/event\/') 
+                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
+                $location.path('/eventList');
+            }
+        });
     });
