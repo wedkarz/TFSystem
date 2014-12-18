@@ -25,12 +25,12 @@ angular.module("techFeast")
                 if(date < startDate) startDate = date;
             });
             var minutes = startDate.getMinutes(),
-                minuteStr = "." + minutes.toString(),
+                minuteStr = minutes.toString(),
                 AMPM = "",
                 hours = startDate.getHours();
 
             if (minutes < 10) minuteStr = "0" + minuteStr;
-            if (minutes === 0) minuteStr = "";
+            if (minutes === 0) {minuteStr = "";} else {minuteStr = ":" + minuteStr;}
             if(hours <= 12) {AMPM = "AM";} else {AMPM = "PM"; hours = hours - 12;};
 
             return hours.toString() + minuteStr + AMPM;
