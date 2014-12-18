@@ -29,7 +29,7 @@ angular.module("techFeast")
                 AMPM = "",
                 hours = startDate.getHours();
 
-            if (minutes < 10) minuteStr = minuteStr + "0";
+            if (minutes < 10) minuteStr = "0" + minuteStr;
             if (minutes === 0) minuteStr = "";
             if(hours <= 12) {AMPM = "AM";} else {AMPM = "PM"; hours = hours - 12;};
 
