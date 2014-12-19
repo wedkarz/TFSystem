@@ -1,17 +1,4 @@
 angular.module("techFeast")
-    .service('EventStorage', function(){
-
-        this.eventData = {};
-
-        this.getEvent = function() {
-            return this.eventData;
-        };
-
-        this.setEvent = function(event){
-            this.eventData = event;
-        };
-
-    })
     .service('TimeFormatter', function () {
 
         this.pickStartHourAndFormat = function(presentations) {

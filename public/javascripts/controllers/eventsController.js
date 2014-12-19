@@ -1,8 +1,9 @@
 angular.module('techFeast')
 	.constant('eventListUrl', '/eventList')
-	.controller('eventListCtrl', function ($scope, $http, $location, eventListUrl, EventStorage){
+	.controller('eventListCtrl', function ($scope, $http, $location, eventListUrl){
 
 		$scope.data = {};
+		$scope.errorInfo = '';
 
 		$http.get(eventListUrl)
 			.success(function (data) {
@@ -20,12 +21,8 @@ angular.module('techFeast')
         	return new Date(milliseconds).toLocaleDateString();
         }
 
-		$scope.showDetails = function (eventId){
-			var theOne = $scope.data.filter(function (element){
-				if(element.event.id === eventId) return element;
-			})[0];
-			EventStorage.setEvent(theOne);
-			$location.path('/eventDetails/');
-		};
+		$scope.showDetails = function (eventId) {
+			$location.path('/event/' + eventId);
+		}
 
 	});

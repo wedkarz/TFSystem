@@ -50,9 +50,17 @@ angular.module('techFeast')
 			return new Date(milliseconds);
 		}
 	})
-	.controller('eventDetailsCtrl', function($scope, $location, EventStorage, TimeFormatter){
+	.controller('eventDetailsCtrl', function($scope, $routeParams, $http, $location, eventUrl, TimeFormatter){
 
-    	$scope.item = EventStorage.getEvent();
+		$scope.item = {};
+
+    	$http.get(eventUrl + $routeParams.id)
+        	.success(function (data) {
+        		$scope.item = data;
+        	})
+        	.error(function (error) {
+        		$scope.errorInfo = error;
+        	});
 
        	$scope.back = function(){
         	$location.path('/');

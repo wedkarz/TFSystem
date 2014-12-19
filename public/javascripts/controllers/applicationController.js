@@ -40,6 +40,11 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
             controller: "eventEditCtrl"
         });
 
+        $routeProvider.when("/event/:id", {
+            templateUrl: "javascripts/views/eventDetails.html",
+            controller: "eventDetailsCtrl"
+        });
+
         $routeProvider.when("/eventDetails/", {
             templateUrl: "javascripts/views/eventDetails.html",
             controller: "eventDetailsCtrl"
