@@ -31,3 +31,14 @@
 	font-size: 14px;
 	color: #990000;
 }
+
+#eventDetailsInfo {
+	padding: 50px;
+	text-align: center;
+}
+
+#presDetInfo {
+	margin-left: auto;
+	margin-right: auto;
+	width: 50%;
+}
