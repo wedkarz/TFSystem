@@ -79,7 +79,7 @@ angular.module('techFeast')
                 }
 
                 $scope.getTemplate = function (user) {
-                        if(user.email === $scope.editedUser.email) return 'edit';
+                        if(user.email === $scope.editedUser.email && !$scope.isNewRowVisible) return 'edit';
                         else return 'display';
                     };
             });
