@@ -13,6 +13,10 @@ angular.module('techFeast')
                     return _p8() + _p8(true) + _p8(true) + _p8();
                 }
 
+                $scope.isCurrentlyLoggedInUser = function (user) {
+                    return $scope.currentUser.email === user.email;
+                }
+
                 $scope.setEdit = function (user) {
                     $scope.isInEditMode = true;
                     $scope.editedUser = angular.copy(user);

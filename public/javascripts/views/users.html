@@ -33,8 +33,8 @@
     <td data-title="'Email'" sortable="'email'">{{user.email}}</td>
     <td data-title="'Rola'" sortable="'role'">{{user.role}}</td>
     <td data-title="'Token'">{{user.token}}</td>
-    <td><input type="button" value="Edit" ng-click="setEdit(user)" class="btn btn-default">
-        <input type="button" value="Delete" ng-click="deleteUser(user)" class="btn btn-danger"></td>
+    <td><input type="button" value="Edit" ng-click="setEdit(user)" class="btn btn-default" ng-show="!isCurrentlyLoggedInUser(user)">
+        <input type="button" value="Delete" ng-click="deleteUser(user)" class="btn btn-danger" ng-show="!isCurrentlyLoggedInUser(user)"></td>
 </script>
 <script type="text/ng-template" id="edit">
     <form class="form-inline" role="form">
