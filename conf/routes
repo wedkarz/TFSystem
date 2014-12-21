@@ -11,6 +11,19 @@ GET		/event/:id							controllers.Events.getEvent(id: Long)
 
 PUT		/event/:id							controllers.Events.updateEvent(id: Long)
 
+# Users
+GET     /users                              controllers.Users.allUsers
+
+POST    /users                              controllers.Users.createUser
+
+GET     /users/:email                       controllers.Users.findByEmail(email: String)
+
+PUT     /users/:email                       controllers.Users.updateUser(email: String)
+
+DELETE  /users/:email                       controllers.Users.deleteUser(email: String)
+
+
+# Authentication
 POST    /authentication/login				controllers.Authentication.login
 
 POST    /authentication/logout				controllers.Authentication.logout

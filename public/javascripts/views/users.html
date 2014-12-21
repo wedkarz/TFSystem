@@ -1,0 +1,68 @@
+<br>
+<br>
+<div class="row">
+        <div class="col-md-12 main">
+            <h2 class="page-header">Użytkownicy</h2>
+            <a class="btn btn-primary" ng-click="addUser()">Dodaj użytkownika</a>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Rola</th>
+                        <th>UUID</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-if="isNewRowVisible" ng-include="'newUser'"></tr>
+                    <tr ng-repeat="user in users.users" ng-include="getTemplate(user)">
+                        <!--<div ng-show="!isEditedRow(user)">-->
+                            <!--<td data-title="'Email'">{{user.email}}</td>-->
+                            <!--<td data-title="'Rola'">{{user.role}}</td>-->
+                            <!--<td data-title="'Token'">{{user.token}}</td>-->
+                            <!--<td><input type="button" id="editRowBtn{{user.email}}" value="edit" ng-click="setEdit(user)"></td>-->
+                        <!--</div>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script type="text/ng-template" id="display">
+    <td data-title="'Email'" sortable="'email'">{{user.email}}</td>
+    <td data-title="'Rola'" sortable="'role'">{{user.role}}</td>
+    <td data-title="'Token'">{{user.token}}</td>
+    <td><input type="button" value="Edit" ng-click="setEdit(user)" class="btn btn-default">
+        <input type="button" value="Delete" ng-click="deleteUser(user)" class="btn btn-danger"></td>
+</script>
+<script type="text/ng-template" id="edit">
+    <form class="form-inline" role="form">
+    <td data-title="'Email'" class="form-control-static">{{user.email}}</td>
+    <td><select class="form-control" ng-model="editedUser.role">
+        <option value="user">user</option>
+        <option value="presenter">presenter</option>
+        <option value="superuser">superuser</option>
+    </select>
+        <!--<input type="text" ng-model="editedUser.role" class="form-control"/>-->
+    </td>
+    <td><input type="text" ng-model="editedUser.token" class="form-control-static" disabled />
+    <input type="button" value="Generuj nowy UUID" class="btn btn-default" ng-click="generateNewUUID()"></td>
+    <td><input type="button" value="Save" ng-click="updateUser()" class="btn btn-success">
+    <input type="button" value="Cancel" ng-click="cancelUpdate()" class="btn btn-default"></td>
+        </form>
+</script>
+<script type="text/ng-template" id="newUser">
+    <form class="form-inline" role="form">
+    <td><input type="text" ng-model="editedUser.email" class="form-control"/></td>
+    <td><select class="form-control" ng-model="editedUser.role">
+        <option value="user">user</option>
+        <option value="presenter">presenter</option>
+        <option value="superuser">superuser</option>
+    </select></td>
+    <td data-title="'Token'" class="form-control-static">{{editedUser.token}}</td>
+    <td><input type="button" value="Cancel" ng-click="cancelUpdate()" class="btn btn-default">
+        <input type="button" value="Save" ng-click="createNewUser()" class="btn btn-success">
+        </td>
+     </form>
+</script>
