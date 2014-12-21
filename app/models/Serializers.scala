@@ -19,6 +19,7 @@ object Serializers {
       (__ \ "name").format[Option[String]] and
       (__ \ "time").format[Option[String]] and
       (__ \ "presenters").format[Option[String]] and
+        (__ \ "description").format[Option[String]] and
       (__ \ "eventId").format[Option[Long]]
 	)(Presentation.apply, unlift(Presentation.unapply))
 	

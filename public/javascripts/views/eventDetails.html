@@ -1,0 +1,18 @@
+ <div ng-controller="eventDetailsCtrl">
+    <div id="eventDetailsInfo">
+        <h1>{{formatDateVerbose(item.event.date)}} Event</h1>
+        <p class="lead">{{startHour(item.presentations)}} CET<br>
+        {{item.event.place}}</p>
+    </div>
+    <div id="presDetInfo">
+        <div ng-repeat="presentation in item.presentations | orderBy: 'time'">
+            <p><i>{{presentation.name}}</i><br>
+                <b>{{formatTimeRange(presentation.time)}}</b><br>
+                {{presentation.presenters}}<br>
+                {{presentation.description}}
+            </p>
+        </div>
+        <button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorized([userRoles.superuser])">Edit</button>
+        <button ng-click="back()" class="btn btn-primary">Back</button>
+    </div>
+</div>

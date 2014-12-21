@@ -18,6 +18,8 @@
 						</span>					
 				</h2>
 				<div class="buttons" ng-if="isAuthorized([userRoles.presenter, userRoles.superuser])">
+					<button class="btn btn-primary" ng-click="showDetails(item.event.id)" ng-if="isAuthorized([userRoles.presenter, userRoles.superuser])">Show details</button>
+					<br>
 					<button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorized([userRoles.superuser])">Edit</button>
 					<br>
 					<button class="btn btn-danger" ng-if="isAuthorized(userRoles.superuser)">Delete</button>

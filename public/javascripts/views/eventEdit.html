@@ -27,9 +27,10 @@
             <h2>Edit Presentations</h2>
 
             <div id="editPresentations">
-                <span style="display:inline-block; width: 160px; font-size: 14px">Time </span>
+                <span style="display:inline-block; width: 240px; font-size: 14px">Time </span>
                 <span style="display:inline-block; width: 160px; font-size: 14px">Name </span>
                 <span style="display:inline-block; width: 170px; font-size: 14px">Presenters </span>
+                <span style="display:inline-block; width: 170px; font-size: 14px">Description </span>
                 <div ng-repeat="presentation in data.presentations">
                     
                     <div class="form-inline">
@@ -45,6 +46,11 @@
                         <div class="form-group">                            
                             <input type="text" class="form-control" name="presenters" id="presenters" ng-model="presentation.presenters" required />                                                        
                         </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="description" id="description" ng-model="presentation.description" required/>
+                        </div>
+
                         <a class="btn btn-danger" ng-click="removePresentation($index)">Remove</a>
                         <br/>
                     </div>                    
@@ -54,6 +60,7 @@
                 <span class="errorEventEdit"><h5 ng-show="eventForm.time.$error.required">Enter time</h5></span>
                 <span class="errorEventEdit"><h5 ng-show="eventForm.name.$error.required">Enter a name</h5></span>
                 <span class="errorEventEdit"><h5 ng-show="eventForm.presenters.$error.required">Enter presenters</h5></span>
+                <span class="errorEventEdit"><h5 ng-show="eventForm.description.$error.required">Enter description</h5></span>
                 <br/>
                 <br/>
                 <a class="btn btn-success" ng-click="addPresentation()">Add presentation</a>
@@ -62,8 +69,8 @@
             
             <div class="control-group">
                 <div class="controls">
-                    <a ng-click="cancel()" class="btn btn-info">cancel</a>
-                    <a ng-click="updateEvent()" class="btn btn-small btn-primary" ng-disabled="eventForm.$invalid">update event</a>
+                    <a ng-click="cancel()" class="btn btn-info">Cancel</a>
+                    <a ng-click="updateEvent()" class="btn btn-small btn-primary" ng-disabled="eventForm.$invalid">Update event</a>
                 </div>
             </div>
         </form>

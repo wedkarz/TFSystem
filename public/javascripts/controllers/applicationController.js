@@ -29,7 +29,7 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
         ]);
     })
     .config(function ($routeProvider) {
-        
+
         $routeProvider.when("/events", {
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl"
@@ -40,9 +40,19 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
             controller: "eventEditCtrl"
         });
 
+        $routeProvider.when("/event/:id", {
+            templateUrl: "javascripts/views/eventDetails.html",
+            controller: "eventDetailsCtrl"
+        });
+
+        $routeProvider.when("/eventDetails/", {
+            templateUrl: "javascripts/views/eventDetails.html",
+            controller: "eventDetailsCtrl"
+        });
+
         $routeProvider.when("/users", {
-            templateUrl: "javascripts/views/users.html",
-            controller: "usersCtrl"
+                    templateUrl: "javascripts/views/users.html",
+                    controller: "usersCtrl"
         });
 
         $routeProvider.otherwise({
