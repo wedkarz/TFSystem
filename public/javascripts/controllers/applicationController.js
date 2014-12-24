@@ -1,5 +1,5 @@
 
-angular.module("techFeast", ["ngRoute", "ngCookies"])
+angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
     .constant('URLS', {
         login: '/authentication/login',
         logout: '/authentication/logout',
@@ -48,6 +48,11 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
         $routeProvider.when("/eventDetails/", {
             templateUrl: "javascripts/views/eventDetails.html",
             controller: "eventDetailsCtrl"
+        });
+
+        $routeProvider.when("/users", {
+                    templateUrl: "javascripts/views/users.html",
+                    controller: "usersCtrl"
         });
 
         $routeProvider.otherwise({

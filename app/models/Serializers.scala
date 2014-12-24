@@ -26,5 +26,11 @@ object Serializers {
   implicit val EventWithPresentationsFormat: Format[EventWithPresentations] = (
       (__ \ "event").format[Event] and
       (__ \ "presentations").format[Option[List[Presentation]]]
-      )(EventWithPresentations.apply, unlift(EventWithPresentations.unapply))	 
+      )(EventWithPresentations.apply, unlift(EventWithPresentations.unapply))
+
+  implicit val UserFormat: Format[User] = (
+    (__ \ "email").format[String] and
+    (__ \ "role").format[String] and
+    (__ \ "token").format[String]
+    )(User.apply, unlift(User.unapply))
 }

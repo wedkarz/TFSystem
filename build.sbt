@@ -14,6 +14,7 @@ libraryDependencies ++= Seq(
   "org.webjars" % "jquery" % "2.1.1",
   "org.webjars" % "bootstrap" % "3.2.0" exclude("org.webjars", "jquery"),
   "org.webjars" % "angularjs" % "1.3.0-beta.13" exclude("org.webjars", "jquery"),
+  "org.webjars" % "ng-table" % "0.3.3",
   "joda-time" % "joda-time" % "2.3",
   "com.typesafe.slick" %% "slick" % "2.1.0",
   "postgresql" % "postgresql" % "9.1-901-1.jdbc4",

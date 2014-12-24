@@ -6,8 +6,7 @@ import org.joda.time.DateTime
 import scala.slick.driver.PostgresDriver.simple._
 import play.api.libs.json._
 
-case class User (email: String, token: String, role: String) {
-}
+case class User (email: String, token: String = UUID.randomUUID.toString, role: String)
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") {
 
@@ -25,5 +24,46 @@ object UsersManager {
     DatabaseConfig.db.withSession { implicit session =>
       users.filter(_.token === token).firstOption
     }
+  }
+
+  def findByEmail(email: String): Option[User] = {
+    DatabaseConfig.db.withSession { implicit session =>
+      users.filter(_.email === email).firstOption
+    }
+  }
+
+  def createUser(user: User) = {
+    DatabaseConfig.db.withSession{ implicit session =>
+      users += user
+    }
+  }
+
+  def allUsers(): List[User] = {
+    DatabaseConfig.db.withSession { implicit session =>
+      users.list
+    }
+  }
+
+  def updateUser(user: User): Int = {
+    DatabaseConfig.db.withSession{ implicit session =>
+      users.filter(_.email === user.email).update(user)
+    }
+  }
+
+  def deleteUser(userEmail: String): Int = {
+    DatabaseConfig.db.withSession{ implicit session =>
+      users.filter(_.email === userEmail).delete
+    }
+  }
+
+  def generateTokenForUser(user: User): String = {
+    val token = UUID.randomUUID().toString
+    val updatedUser = User(user.email, token, user.role)
+
+    DatabaseConfig.db.withSession{ implicit session =>
+      users.filter(_.email === user.email).update(updatedUser)
+    }
+
+    token
   }
 }
