@@ -12,12 +12,17 @@
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-cookies.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-resource.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/ng-table/ng-table.js")"/></script>
+
         <script src="@routes.Assets.versioned("javascripts/controllers/applicationController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/authenticationController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/eventsController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/eventController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/usersController.js")"></script>
-        <script src="@routes.Assets.versioned("javascripts/controllers/services.js")"></script>
+
+        <script src="@routes.Assets.versioned("javascripts/services/AuthService.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/services/SessionService.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/services/TimeFormatterService.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/services/UsersFactoryService.js")"></script>
     </head>
     <body ng-controller="ApplicationCtrl">
     <div class="container">
@@ -35,7 +40,7 @@
             <div data-ng-switch="!!currentUser" data-ng-cloak>
                 <div data-ng-switch-when="true">
                     <form class="navbar-form navbar-right" role="form" data-ng-submit="logout()" data-ng-controller="AuthenticationCtrl">
-                        <button type="submit" class="btn btn-default">Logout {{currentUser.email}}</button>
+                        <button type="submit" class="btn btn-default">Logout {{currentUser.email}} <span class="label label-default">{{roleForValue(currentUser.role).name}}</span></button>
                     </form>
                 </div>
                 <div data-ng-switch-default>
@@ -49,7 +54,7 @@
             </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav" data-ng-switch="!!currentUser">
-                <li ng-if="isAuthorized(userRoles.superuser)"><a href="#/users">Zarządzaj użytkownikami</a></li>
+                <li ng-if="isAuthorizedRole(userRoles.superorganizer)"><a href="#/users">Zarządzaj użytkownikami</a></li>
                 <!--<li class="active" data-ng-switch-when="true"><a href="#">{{ currentUser.email }}</a></li>-->
                 <!--<li class="active" data-ng-switch-when="false"><a href="#">false</a></li>-->
                 <!--<li class="active" data-ng-switch-default><a href="#">default</a></li>-->
