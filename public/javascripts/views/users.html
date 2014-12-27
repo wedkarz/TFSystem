@@ -1,9 +1,28 @@
-<br>
-<br>
+<br />
+<br />
+<div class="page-header">
+    <h2>Użytkownicy</h2>
+</div>
 <div class="row">
-        <div class="col-md-12 main">
-            <h2 class="page-header">Użytkownicy</h2>
-            <a class="btn btn-primary" ng-click="addUser()">Dodaj użytkownika</a>
+        <div class="col-md-3">
+        <select class="form-control" ng-model="roleFilter">
+            <option value="">[Wszystkie role]</option>
+            <option value="user">user</option>
+            <option value="presenter">presenter</option>
+            <option value="superuser">superuser</option>
+        </select>
+        </div>
+    <div class="col-md-2 col-md-offset-7">
+        <a class="btn btn-primary" ng-click="addUser()">Dodaj użytkownika</a>
+    </div>
+</div>
+
+<div class="row">
+    &nbsp;
+</div>
+
+<div class="row">
+        <div class="col-md-12">
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -16,14 +35,7 @@
                     </thead>
                     <tbody>
                     <tr ng-if="isNewRowVisible" ng-include="'newUser'"></tr>
-                    <tr ng-repeat="user in users.users" ng-include="getTemplate(user)">
-                        <!--<div ng-show="!isEditedRow(user)">-->
-                            <!--<td data-title="'Email'">{{user.email}}</td>-->
-                            <!--<td data-title="'Rola'">{{user.role}}</td>-->
-                            <!--<td data-title="'Token'">{{user.token}}</td>-->
-                            <!--<td><input type="button" id="editRowBtn{{user.email}}" value="edit" ng-click="setEdit(user)"></td>-->
-                        <!--</div>-->
-                    </tr>
+                    <tr ng-repeat="user in users.users | filter:roleFilter:usersFilterComparator" ng-include="getTemplate(user)"></tr>
                     </tbody>
                 </table>
             </div>

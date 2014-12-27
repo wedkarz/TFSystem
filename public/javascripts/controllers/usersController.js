@@ -4,6 +4,7 @@ angular.module('techFeast')
 	            $scope.users = UsersFactory.query();
 	            $scope.isNewRowVisible = false;
                 $scope.editedUser = {}
+                $scope.roleFilter = "";
 
                 function guid() {
                     function _p8(s) {
@@ -38,7 +39,9 @@ angular.module('techFeast')
                 };
 
                 $scope.addUser = function() {
+                    $scope.editedUser = {};
                     $scope.editedUser.token = guid().toUpperCase();
+                    $scope.editedUser.role = "user";
                     $scope.isNewRowVisible = true;
                 };
 
@@ -82,4 +85,8 @@ angular.module('techFeast')
                         if(user.email === $scope.editedUser.email && !$scope.isNewRowVisible) return 'edit';
                         else return 'display';
                     };
+
+                $scope.usersFilterComparator = function(actual, expected) {
+                    return angular.equals(actual, expected) || angular.equals(expected, "");
+                }
             });
