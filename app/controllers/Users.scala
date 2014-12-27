@@ -40,9 +40,9 @@ object Users extends Controller {
       val int = UsersManager.updateUser(user)
 
       if(int > 0) {
-        Ok(int.toString)
+        Ok("Updated " + int.toString + "users")
       } else {
-        NotFound(email)
+        NotFound("User " + email + " not found")
       }
     }
   )

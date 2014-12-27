@@ -124,4 +124,8 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
                 $location.path('/eventList');
            }
         });
+
+        $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
+            $location.path('/eventList');
+        })
     });
