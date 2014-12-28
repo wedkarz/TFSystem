@@ -1,9 +1,45 @@
 angular.module('techFeast')
 	.constant('usersListUrl', '/users')
-	.controller('usersCtrl', function ($scope, $http, $location, $filter, ngTableParams, usersListUrl, UsersFactory, UserFactory) {
+	.filter("property", ["$filter", function($filter){
+        var parseString = function(input){
+            return input.split(".");
+        }
+
+        var checkNegation = function(input){
+            return input[0] === '!';
+        }
+
+        function getValue(element, propertyArray) {
+            var value = element;
+
+            angular.forEach(propertyArray, function(property) {
+                value = value[property];
+            });
+
+            return value;
+        }
+
+        return function (array, propertyString, target) {
+            var isNegation = checkNegation(target);
+            var properties = parseString(propertyString);
+
+            return $filter('filter')(array, function(item){
+                var value = getValue(item, properties);
+                if(!isNegation) {
+                    return value === target;
+                } else {
+                    return value !== target.substr(1, value.length - 1);
+                }
+            });
+        }
+    }])
+	.controller('usersCtrl', function ($scope, $http, $location, $filter, ngTableParams, usersListUrl, UsersFactory, UserFactory, AuthService, USER_ROLES) {
 	            $scope.users = UsersFactory.query();
 	            $scope.isNewRowVisible = false;
                 $scope.editedUser = {}
+                $scope.roleFilter = "";
+                $scope.allUserRoles = AuthService.allUserRoles;
+                $scope.roleForValue = AuthService.roleForValue;
 
                 function guid() {
                     function _p8(s) {
@@ -38,7 +74,9 @@ angular.module('techFeast')
                 };
 
                 $scope.addUser = function() {
+                    $scope.editedUser = {};
                     $scope.editedUser.token = guid().toUpperCase();
+                    $scope.editedUser.role = USER_ROLES.participant.value;
                     $scope.isNewRowVisible = true;
                 };
 
@@ -82,4 +120,8 @@ angular.module('techFeast')
                         if(user.email === $scope.editedUser.email && !$scope.isNewRowVisible) return 'edit';
                         else return 'display';
                     };
+
+                $scope.usersFilterComparator = function(actual, expected) {
+                    return angular.equals(actual, expected) || angular.equals(expected, "");
+                }
             });

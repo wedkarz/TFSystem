@@ -16,8 +16,6 @@ GET     /users                              controllers.Users.allUsers
 
 POST    /users                              controllers.Users.createUser
 
-GET     /users/:email                       controllers.Users.findByEmail(email: String)
-
 PUT     /users/:email                       controllers.Users.updateUser(email: String)
 
 DELETE  /users/:email                       controllers.Users.deleteUser(email: String)

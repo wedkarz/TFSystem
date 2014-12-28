@@ -12,7 +12,7 @@
                 {{presentation.description}}
             </p>
         </div>
-        <button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorized([userRoles.superuser])">Edit</button>
+        <button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorizedRole(userRoles.organizer)">Edit</button>
         <button ng-click="back()" class="btn btn-primary">Back</button>
     </div>
 </div>

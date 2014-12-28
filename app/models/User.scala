@@ -9,7 +9,6 @@ import play.api.libs.json._
 case class User (email: String, token: String = UUID.randomUUID.toString, role: String)
 
 class Users(tag: Tag) extends Table[User](tag, "USERS") {
-
   def email = column[String]("EMAIL", O.PrimaryKey)
   def token = column[String]("TOKEN")
   def role = column[String]("ROLE")
