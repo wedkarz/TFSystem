@@ -1,0 +1,37 @@
+<br />
+<br />
+<div class="page-header">
+    <h2>Panel Administracyjny</h2>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-md-4" ng-if="isAuthorizedRole(userRoles.organizer)">
+        <div class="thumbnail panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Zarządzaj wydarzeniami</h3>
+            </div>
+            <div class="panel-body">
+                <img src="images/calendar-icon.png">
+                <div class="caption">
+                    <p>Miejsce dowodzenia nad ciemnym i jasnym ludem. Przyznawania osobnikom szczególnym bądź tępym mocy boskich i stwórczych.</p>
+                    <p>Miejsce gnębienia niepokornych i wybawiania ociemniałych.</p>
+                    <p><a href="#/events" class="btn btn-primary" role="button">Sprawuj rządy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-4" ng-if="isAuthorizedRole(userRoles.superorganizer)">
+        <div class="thumbnail panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Zarządzaj użytkownikami</h3>
+            </div>
+            <div class="panel-body">
+            <img src="images/user-group-icon.png">
+                <div class="caption">
+                    <p>Miejsce dowodzenia nad ciemnym i jasnym ludem. Przyznawania osobnikom szczególnym bądź tępym mocy boskich i stwórczych.</p>
+                    <p>Miejsce gnębienia niepokornych i wybawiania ociemniałych.</p>
+                    <p><a href="#/users" class="btn btn-primary" role="button">Sprawuj rządy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
