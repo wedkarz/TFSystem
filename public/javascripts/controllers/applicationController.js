@@ -71,6 +71,15 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
             }
         });
 
+        $routeProvider.when("/organizerPanel", {
+            templateUrl: "javascripts/views/organizerPanel.html",
+            controller: "organizerPanelCtrl",
+            data: {
+                authorizedRole: USER_ROLES.organizer
+            }
+        });
+
+
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl",
@@ -107,14 +116,11 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
         AuthService.restoreSession()
             .then(function(user) {
                 $scope.setCurrentUser(user);
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            }, function() {
-                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
            var authorizedRole = next.data.authorizedRole;
-           if(next.$$route && !AuthService.isAuthorizedRole(authorizedRole)) {
+           if(next.$$route && next.$$route.originalPath !== $location.$$path && !AuthService.isAuthorizedRole(authorizedRole)) {
                 if(AuthService.isAuthenticated()) {
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
                 } else {
@@ -127,5 +133,12 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
 
         $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
             $location.path('/eventList');
-        })
+        });
+
+        $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+            if(AuthService.isAuthorizedRole(USER_ROLES.organizer)) {
+                $location.path('/organizerPanel');
+            }
+        });
+
     });
