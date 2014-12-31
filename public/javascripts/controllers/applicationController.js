@@ -79,17 +79,6 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
             }
         });
 
-        $routeProvider.when("/superPanel", {
-            templateUrl: "javascripts/views/superPanel.html",
-            data: {
-                authorizedRole: USER_ROLES.superorganizer
-            }    
-        });
-
-        $routeProvider.when("/users", {
-            templateUrl: "javascripts/views/users.html"
-        });
-
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl",
