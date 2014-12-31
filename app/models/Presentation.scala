@@ -5,7 +5,7 @@ import scala.slick.lifted.{TableQuery, ProvenShape}
 import play.api.libs.json._
 
 case class Presentation (id: Option[Long] = None, name: Option[String], time: Option[String],
-    						presenters: Option[String], eventId: Option[Long] = None) {
+    						presenters: Option[String], description: Option[String], eventId: Option[Long] = None) {
 }
 
 class Presentations(tag: Tag) extends Table[Presentation](tag, "PRESENTATIONS") {
@@ -14,9 +14,10 @@ class Presentations(tag: Tag) extends Table[Presentation](tag, "PRESENTATIONS") 
   def name = column[String]("NAME")
   def time = column[String]("TIME")
   def presenters = column[String]("PRESENTERS")
+  def description = column[String]("DESCRIPTION")
   def eventId = column[Long]("EVENT_ID")
   
-  def * = (id.?, name.?, time.?, presenters.?, eventId.?) <> (Presentation.tupled, Presentation.unapply)
+  def * = (id.?, name.?, time.?, presenters.?, description.?, eventId.?) <> (Presentation.tupled, Presentation.unapply)
  
   def event = foreignKey("EVENT_FK", eventId, EventsManager.events)(_.id)
     

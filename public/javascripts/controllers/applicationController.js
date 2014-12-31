@@ -1,5 +1,5 @@
 
-angular.module("techFeast", ["ngRoute", "ngCookies"])
+angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
     .constant('URLS', {
         login: '/authentication/login',
         logout: '/authentication/logout',
@@ -15,10 +15,11 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
         notAuthorized: 'auth-not-authorized'
     })
     .constant('USER_ROLES', {
-        all: '*',
-        user: 'user',
-        presenter: 'presenter',
-        superuser: 'superuser'
+        all: {name: '[Wszystkie role]', value: '', privilegeLevel: 0},
+        participant: {name: 'Uczestnik', value: 'participant', privilegeLevel: 0},
+        presenter: {name: 'Prezenter', value: 'presenter', privilegeLevel: 1},
+        organizer: {name: 'Organizator', value: 'organizer', privilegeLevel: 2},
+        superorganizer: {name: 'Super Organizator', value: 'superorganizer', privilegeLevel: 3}
     })
     .config(function ($httpProvider) {
         $httpProvider.interceptors.push([
@@ -28,20 +29,61 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
             }
         ]);
     })
-    .config(function ($routeProvider) {
-        
+    .config(function ($routeProvider, USER_ROLES) {
+
         $routeProvider.when("/events", {
             templateUrl: "javascripts/views/eventList.html",
-            controller: "eventListCtrl"
+            controller: "eventListCtrl",
+            data: {
+                  authorizedRole: USER_ROLES.all
+            }
         });
 
         $routeProvider.when("/event/edit/:id", {
             templateUrl: "javascripts/views/eventEdit.html",
-            controller: "eventEditCtrl"
+            controller: "eventEditCtrl",
+            data: {
+                authorizedRole: USER_ROLES.organizer
+            }
+        });
+
+        $routeProvider.when("/event/:id", {
+            templateUrl: "javascripts/views/eventDetails.html",
+            controller: "eventDetailsCtrl",
+            data: {
+                authorizedRole: USER_ROLES.organizer
+            }
+        });
+
+        $routeProvider.when("/eventDetails/", {
+            templateUrl: "javascripts/views/eventDetails.html",
+            controller: "eventDetailsCtrl",
+            data: {
+                authorizedRole: USER_ROLES.organizer
+            }
+        });
+
+        $routeProvider.when("/users", {
+            templateUrl: "javascripts/views/users.html",
+            controller: "usersCtrl",
+            data: {
+                authorizedRole: USER_ROLES.superorganizer
+            }
+        });
+
+        $routeProvider.when("/organizerPanel", {
+            templateUrl: "javascripts/views/organizerPanel.html",
+            controller: "organizerPanelCtrl",
+            data: {
+                authorizedRole: USER_ROLES.organizer
+            }
         });
 
         $routeProvider.when("/superPanel", {
-            templateUrl: "javascripts/views/superPanel.html"    
+            templateUrl: "javascripts/views/superPanel.html",
+            data: {
+                authorizedRole: USER_ROLES.superorganizer
+            }    
         });
 
         $routeProvider.when("/users", {
@@ -50,7 +92,10 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
 
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
-            controller: "eventListCtrl"
+            controller: "eventListCtrl",
+            data: {
+                authorizedRole: USER_ROLES.all
+            }
         }); 
     })
     .factory('AuthInterceptor', function($rootScope, $q,
@@ -70,8 +115,9 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
     .controller('ApplicationCtrl', function($scope, $rootScope, $cookieStore, $location, AuthService, AUTH_EVENTS, USER_ROLES) {
         $scope.currentUser = null;
 
+        $scope.roleForValue = AuthService.roleForValue;
         $scope.userRoles = USER_ROLES;
-        $scope.isAuthorized = AuthService.isAuthorized;
+        $scope.isAuthorizedRole = AuthService.isAuthorizedRole;
 
         $scope.setCurrentUser = function(user) {
             $scope.currentUser = user;
@@ -80,27 +126,29 @@ angular.module("techFeast", ["ngRoute", "ngCookies"])
         AuthService.restoreSession()
             .then(function(user) {
                 $scope.setCurrentUser(user);
-                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            }, function() {
-                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             });
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
-            
-            //restrict views which begin with '/event/' for not superusers; redirect them to events list
-            if (next.$$route && next.$$route.originalPath.match('^\/event\/') 
-                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
-                $location.path('/eventList');
-            }
+           var authorizedRole = next.data.authorizedRole;
+           if(next.$$route && next.$$route.originalPath !== $location.$$path && !AuthService.isAuthorizedRole(authorizedRole)) {
+                if(AuthService.isAuthenticated()) {
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+                } else {
+                    $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+                }
 
-            if (next.$$route && next.$$route.originalPath.match('^\/superPanel') 
-                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
                 $location.path('/eventList');
-            }
+           }
+        });
 
-            if (next.$$route && next.$$route.originalPath.match('^\/users') 
-                    && (!AuthService.isAuthenticated() || !AuthService.isAuthorized('superuser'))) {
-                $location.path('/eventList');
+        $rootScope.$on(AUTH_EVENTS.logoutSuccess, function() {
+            $location.path('/eventList');
+        });
+
+        $rootScope.$on(AUTH_EVENTS.loginSuccess, function() {
+            if(AuthService.isAuthorizedRole(USER_ROLES.organizer)) {
+                $location.path('/organizerPanel');
             }
         });
+
     });

@@ -49,4 +49,37 @@ angular.module('techFeast')
         var formatDate = function (milliseconds)	{
 			return new Date(milliseconds);
 		}
-	});
+	})
+	.controller('eventDetailsCtrl', function($scope, $routeParams, $http, $location, eventUrl, TimeFormatter){
+
+		$scope.item = {};
+
+    	$http.get(eventUrl + $routeParams.id)
+        	.success(function (data) {
+        		$scope.item = data;
+        	})
+        	.error(function (error) {
+        		$scope.errorInfo = error;
+        	});
+
+       	$scope.back = function(){
+        	$location.path('/');
+        };
+
+        $scope.editEvent = function (eventId) {
+        	$location.path('/event/edit/' + eventId);
+        };
+
+		$scope.formatDateVerbose = function(date){
+			return TimeFormatter.formatDateVerbose(date);
+		};
+
+		$scope.startHour = function(presentations){
+			return TimeFormatter.pickStartHourAndFormat(presentations);
+		};
+
+		$scope.formatTimeRange = function(time){
+			return TimeFormatter.formatTimeRange(time);
+		};
+
+    });

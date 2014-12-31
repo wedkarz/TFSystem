@@ -1,21 +1,15 @@
 angular.module("techFeast")
-    .service('Session', function () {
-          this.create = function (sessionId, userEmail, userUUID, userRole) {
-            this.id = sessionId;
-            this.userEmail = userEmail;
-            this.userUUID = userUUID;
-            this.userRole = userRole;
-          };
-          this.destroy = function () {
-            this.id = null;
-            this.userEmail = null;
-            this.userUUID = null;
-            this.userRole = null;
-          };
-          return this;
-        })
-    .factory('AuthService', function ($http, Session, URLS) {
+    .factory('AuthService', function ($http, Session, URLS, USER_ROLES) {
       var authService = {};
+      authService.allUserRoles = [USER_ROLES.all, USER_ROLES.participant, USER_ROLES.presenter, USER_ROLES.organizer, USER_ROLES.superorganizer];
+
+      authService.roleForValue = function(roleValue) {
+         var matchingRoleIndex = authService.allUserRoles.map(function (elem) {
+            return elem.value;
+         }).indexOf(roleValue);
+
+         return authService.allUserRoles[matchingRoleIndex];
+      };
 
       authService.login = function (credentials) {
         return $http
@@ -48,13 +42,24 @@ angular.module("techFeast")
         return !!Session.userEmail;
       };
 
-      authService.isAuthorized = function (authorizedRoles) {
-        if (!angular.isArray(authorizedRoles)) {
-          authorizedRoles = [authorizedRoles];
-        }
-        return (authService.isAuthenticated() &&
-          authorizedRoles.indexOf(Session.userRole) !== -1);
+      authService.isAuthorizedRoleName = function (minimalAuthorizedRoleName) {
+          var role = authService.roleForValue(minimalAuthorizedRole);
+          if(role === undefined) {
+            return false;
+          } else {
+            return isAuthorized(role);
+          }
+      }
+
+      authService.isAuthorizedRole = function (minimalAuthorizedRole) {
+          if(minimalAuthorizedRole === undefined)
+            return false;
+
+          var currentUserRole = authService.roleForValue(Session.userRole);
+          return authService.isAuthenticated() &&
+                    currentUserRole.privilegeLevel >= minimalAuthorizedRole.privilegeLevel;
       };
+
 
       return authService;
     });

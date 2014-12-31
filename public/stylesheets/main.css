@@ -32,7 +32,14 @@
 	color: #990000;
 }
 
-#superPanel {
-	margin-left: 20%;	
+#eventDetailsInfo {
+	padding: 50px;
+	text-align: center;
+}
+
+#presDetInfo {
+	margin-left: auto;
+	margin-right: auto;
 	width: 50%;
 }
+
