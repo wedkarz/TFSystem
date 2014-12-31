@@ -79,7 +79,6 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
             }
         });
 
-
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl",
