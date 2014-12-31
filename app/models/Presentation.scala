@@ -33,17 +33,13 @@ object PresentationsManager {
     val oldPresentations = EventsManager.getEventWithPresentations(eventId).presentations.get
     val presentationsToDelete = filterPresentationsToDelete(newPresentations, oldPresentations)
     
-    for (p <- newPresentations) {
-      if (p.id == None) {    	  
-    	  savePresentation(p)
-      }
-      else
-    	  updatePresentation(p)
-    }
+    newPresentations.map(p => p.id match {
+      case None => insertPresentation(p)
+      case _ => updatePresentation(p)
+    })
     
-    for (p <- presentationsToDelete) {
-      deletePresentation(p)
-    }
+    presentationsToDelete.map(p => deletePresentation(p))
+    
   }
   
   // finding those presentations which should be deleted; we map a list of new presentations to a list 
@@ -53,21 +49,15 @@ object PresentationsManager {
     oldPresentations.filter(p => !newPresentations.map(np => np.id).contains(p.id))
   }
   
-  def savePresentation(presentation: Presentation) = {
-    DatabaseConfig.db.withSession { implicit session => 
-      presentations += presentation
+  def insertPresentation(presentation: Presentation) = {
+    DatabaseConfig.db.withSession { implicit session =>       
+      (presentations returning presentations.map(_.id)) += presentation
     }
   }
   
   def updatePresentation(presentation: Presentation) = {
     DatabaseConfig.db.withSession{ implicit session =>
       presentations.filter(_.id === presentation.id).update(presentation)	
-    }
-  }
-  
-  def insertOrUpdate(presentation: Presentation) = {
-    DatabaseConfig.db.withSession { implicit session =>
-      presentations.insertOrUpdate(presentation)
     }
   }
    
