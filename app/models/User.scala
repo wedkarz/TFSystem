@@ -31,7 +31,7 @@ object UsersManager {
     }
   }
 
-  def createUser(user: User) = {
+  def insertUser(user: User) = {
     DatabaseConfig.db.withSession{ implicit session =>
       users += user
     }
@@ -64,5 +64,23 @@ object UsersManager {
     }
 
     token
+  }
+  
+  def importUsers(emails: List[String]) = {
+    emails.map(email => {
+      val user = createUser(email, UserRoles.Participant.value)
+      user match {
+        case None => None
+        case _ => insertUser(user.get)
+      }      
+    })
+  }
+  
+  def createUser(email: String, role: String): Option[User] = {
+    val user = findByEmail(email)
+    user match {
+      case None => Some(User(email, UUID.randomUUID.toString, role))
+      case _ => None  
+    }     
   }
 }

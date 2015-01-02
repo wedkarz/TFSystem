@@ -1,5 +1,6 @@
 angular.module('techFeast')
 	.constant('usersListUrl', '/users')
+    .constant('usersImportUrl', '/users/import')
 	.filter("property", ["$filter", function($filter){
         var parseString = function(input){
             return input.split(".");
@@ -124,4 +125,24 @@ angular.module('techFeast')
                 $scope.usersFilterComparator = function(actual, expected) {
                     return angular.equals(actual, expected) || angular.equals(expected, "");
                 }
+            })
+    .controller('usersImportCtrl', function ($scope, $http, $location, UsersImportFactory, AuthService, EmailValidatorService, USER_ROLES, toastr) {
+        $scope.data = {emails: ''};
+        $scope.info = '';
+
+        $scope.importUsers = function () {
+            var toSend = {emails: $scope.data.emails.replace(new RegExp('\n','g'), ' ')};
+            UsersImportFactory.importUsers(toSend, function (data) {
+                toastr.success('Import zakończony pomyślnie', 'Sukces');
+                $location.path('/users');
+            }, function (error) {
+                toastr.error('Błąd przy imporcie');
             });
+        };
+
+        $scope.isValid = function (emails) {
+            var es = $scope.data.emails.split("\n");
+            
+            return _.chain(es).map(EmailValidatorService.isValid).reduceRight( function (a,b) { return a && b;}, true).value();
+        }
+    });

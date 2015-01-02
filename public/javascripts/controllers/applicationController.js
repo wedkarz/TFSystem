@@ -1,5 +1,5 @@
 
-angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
+angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable", "toastr"])
     .constant('URLS', {
         login: '/authentication/login',
         logout: '/authentication/logout',
@@ -63,6 +63,14 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
             }
         });
 
+        $routeProvider.when("/users/import", {
+            templateUrl: "javascripts/views/usersImport.html",
+            controller: "usersImportCtrl",
+            data: {
+                authorizedRole: USER_ROLES.superorganizer
+            }
+        });
+
         $routeProvider.when("/users", {
             templateUrl: "javascripts/views/users.html",
             controller: "usersCtrl",
@@ -119,7 +127,7 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable"])
 
         $rootScope.$on('$routeChangeStart', function (event, next) {
            var authorizedRole = next.data.authorizedRole;
-           if(next.$$route && next.$$route.originalPath !== $location.$$path && !AuthService.isAuthorizedRole(authorizedRole)) {
+           if(next.$$route && next.$$route.originalPath === $location.$$path && !AuthService.isAuthorizedRole(authorizedRole)) {
                 if(AuthService.isAuthenticated()) {
                     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
                 } else {

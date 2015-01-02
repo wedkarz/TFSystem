@@ -21,5 +21,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.0" % "test",
   "com.propensive" %% "rapture-io" % "0.9.0",
   "com.propensive" %% "rapture-json-spray" % "1.0.8",
-  "com.typesafe.play" %% "play-slick" % "0.8.1"
+  "com.typesafe.play" %% "play-slick" % "0.8.1",
+  "org.webjars" % "angular-ui" % "0.4.0-3"
 )

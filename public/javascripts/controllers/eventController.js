@@ -23,7 +23,7 @@ angular.module('techFeast')
 
 			$http.put(eventUpdateUrl + $routeParams.id, $scope.data)
 				.success(function () {
-					$location.path('/event/' + $routeParams.id);		
+					$location.path('/events');		
 				})
 				.error(function (error) {
 					$scope.errorInfo = error;
