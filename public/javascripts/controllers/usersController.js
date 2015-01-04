@@ -131,7 +131,7 @@ angular.module('techFeast')
         $scope.info = '';
 
         $scope.importUsers = function () {
-            var toSend = {emails: $scope.data.emails.replace(new RegExp('\n','g'), ' ')};
+            var toSend = {emails: $scope.data.emails.replace(new RegExp('\n', 'g'), ';').replace(new RegExp(' ', 'g'), '')};
             UsersImportFactory.importUsers(toSend, function (data) {
                 toastr.success('Import zakończony pomyślnie', 'Sukces');
                 $location.path('/users');

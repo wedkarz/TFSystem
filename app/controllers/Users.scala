@@ -52,7 +52,7 @@ object Users extends Controller {
       Action { implicit request => 
         
       	val emails = request.body.asJson.get \ "emails"      
-      	val emailList = emails.toString.split(" ").map(_.replace("\"", "")).toList
+      	val emailList = emails.toString.split(";").map(_.replace("\"", "")).toList
       	UsersManager.importUsers(emailList)
       	
       	Ok("success")

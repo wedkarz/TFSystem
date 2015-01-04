@@ -16,6 +16,6 @@ angular.module("techFeast")
 
     .factory('UsersImportFactory', function ($resource) {
         return $resource('/users/import', {}, {
-            importUsers : { method : 'POST', params : {emails: '@emails'} }
+            importUsers : { method : 'POST' }
         })
     });
