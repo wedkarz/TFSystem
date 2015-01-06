@@ -6,12 +6,19 @@
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/main.css")">
         <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap.css")">
 		<link rel="stylesheet" media="screen" href="@routes.Assets.versioned("lib/bootstrap/css/bootstrap-theme.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.versioned("stylesheets/angular-toastr.css")">
 		<link rel="shortcut icon" type="image/png" href="@routes.Assets.versioned("images/favicon.png")">
-		<script src="@routes.Assets.versioned("lib/angularjs/angular.js")"/></script>
+
+        <script src="@routes.Assets.versioned("lib/angularjs/angular.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-route.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-cookies.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/angularjs/angular-resource.js")"/></script>
+        <script src="@routes.Assets.versioned("lib/angularjs/angular-animate.js")"/></script>
 		<script src="@routes.Assets.versioned("lib/ng-table/ng-table.js")"/></script>
+        <script src="@routes.Assets.versioned("lib/angular-ui/angular-ui.js")"/></script>
+        <script src="@routes.Assets.versioned("lib/jquery/jquery.js")"/></script>
+        <script src="@routes.Assets.versioned("lib/underscorejs/underscore.js")"/></script>
+        <script src="@routes.Assets.versioned("javascripts/lib/angular-toastr.js")"/></script>
 
         <script src="@routes.Assets.versioned("javascripts/controllers/applicationController.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/controllers/authenticationController.js")"></script>
@@ -24,6 +31,7 @@
         <script src="@routes.Assets.versioned("javascripts/services/SessionService.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/services/TimeFormatterService.js")"></script>
         <script src="@routes.Assets.versioned("javascripts/services/UsersFactoryService.js")"></script>
+        <script src="@routes.Assets.versioned("javascripts/services/EmailValidatorService.js")"></script>
     </head>
     <body ng-controller="ApplicationCtrl">
     <div class="container">

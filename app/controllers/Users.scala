@@ -5,6 +5,7 @@ import play.api.mvc._
 import rapture.core.NotFound
 import utils.{AuthorizedAction, AuthUtils}
 import scala.concurrent.Future
+import utils.AuthorizedAction
 
 object Users extends Controller {
   implicit val userFormat = Json.format[User]
@@ -30,7 +31,7 @@ object Users extends Controller {
   def createUser = AuthorizedAction(UserRoles.SuperOrganizer,
     Action { implicit request =>
       var user = request.body.asJson.get.as[User]
-      UsersManager.createUser(user)
+      UsersManager.insertUser(user)
       Ok(Json.toJson(user))
   })
 
@@ -46,4 +47,14 @@ object Users extends Controller {
       }
     }
   )
+  
+  def importEmails = AuthorizedAction(UserRoles.SuperOrganizer,
+      Action { implicit request => 
+        
+      	val emails = request.body.asJson.get \ "emails"      
+      	val emailList = emails.toString.split(";").map(_.replace("\"", "")).toList
+      	UsersManager.importUsers(emailList)
+      	
+      	Ok("success")
+  })
 }

@@ -1,0 +1,22 @@
+<br />
+<br />
+<div class="page-header">
+    <h2>Importuj użytkowników</h2>
+</div>
+
+<br />
+
+<div class="row">
+    <h3>Wprowadź listę e-maili oddzielonych znakiem nowej lini</h3>
+    <br />
+    <div id="usersImport">
+    	<form name="usersImportForm">
+			<textarea name="emails" cols="40" rows="15" required ng-model="data.emails" ui-validate="{validEmails: 'isValid($emails)' } "></textarea>
+			<br />
+            <span style="width:175px; color: red;"><h5 ng-show="usersImportForm.emails.$error.required">Pole nie może być puste</h5></span>        
+            <span style="width:175px; color: red;"><h5 ng-hide="isValid(data.emails)">Wprowadzono niepoprawny email</h5></span>
+			<button class="btn btn-success" ng-click="importUsers()" ng-disabled="usersImportForm.$invalid || !isValid(data.emails)">Importuj</button>
+    	</form>	
+    </div>
+    
+</div>

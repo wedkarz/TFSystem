@@ -16,6 +16,8 @@ GET     /users                              controllers.Users.allUsers
 
 POST    /users                              controllers.Users.createUser
 
+POST	/users/import						controllers.Users.importEmails
+
 PUT     /users/:email                       controllers.Users.updateUser(email: String)
 
 DELETE  /users/:email                       controllers.Users.deleteUser(email: String)

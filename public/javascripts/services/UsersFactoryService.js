@@ -12,4 +12,10 @@ angular.module("techFeast")
             update: { method: 'PUT', params: {email: '@email'} },
             delete: { method: 'DELETE', params: {email: '@email'} }
         })
+    })
+
+    .factory('UsersImportFactory', function ($resource) {
+        return $resource('/users/import', {}, {
+            importUsers : { method : 'POST' }
+        })
     });

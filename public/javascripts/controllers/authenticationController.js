@@ -1,5 +1,5 @@
 angular.module("techFeast")
-    .controller('AuthenticationCtrl', function($scope, $rootScope, $cookieStore, AuthService, AUTH_EVENTS) {
+    .controller('AuthenticationCtrl', function ($scope, $rootScope, $cookieStore, AuthService, AUTH_EVENTS) {
         $scope.credentials = {
             uuid: ''
         };
