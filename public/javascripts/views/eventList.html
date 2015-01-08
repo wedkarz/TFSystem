@@ -1,9 +1,10 @@
 <br>
 <br>
-<div>
+<div ng-controller="eventListCtrl">
 	<div id="header">
 		<h1>
 			<span class="text-muted">Tech Feast Events</span>
+<button class="btn btn-primary" ng-click="createEvent()" ng-if="isAuthorizedRole(userRoles.superorganizer)">Create event</button>
 		</h1>
 	</div>
 	<br>
@@ -20,7 +21,7 @@
 				<div class="buttons" ng-if="isAuthorizedRole(userRoles.presenter)">
 					<button class="btn btn-primary" ng-click="showDetails(item.event.id)" ng-if="isAuthorizedRole(userRoles.organizer)">Show details</button>
 					<br>
-					<button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorizedRole(userRoles.superorganizer)">Edit</button>
+					<button class="btn btn-primary" ng-click="editEvent(item.event.id)" ng-if="isAuthorizedRole([userRoles.superorganizer,userRoles.organizer])">Edit</button>
 					<br>
 					<button class="btn btn-danger" ng-if="isAuthorizedRole(userRoles.superorganizer)">Delete</button>
 				</div>

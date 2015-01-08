@@ -1,6 +1,7 @@
 angular.module('techFeast')
 	.constant('eventUrl', '/event/')
 	.constant('eventUpdateUrl', '/event/')
+	.constant('eventNewUrl', '/event/new')
 	.controller('eventEditCtrl', function ($scope, $routeParams, $http, $location, eventUrl, eventUpdateUrl){
 		
 		var id = $routeParams.id;
@@ -23,7 +24,7 @@ angular.module('techFeast')
 
 			$http.put(eventUpdateUrl + $routeParams.id, $scope.data)
 				.success(function () {
-					$location.path('/events');		
+					$location.path('/event/' + $routeParams.id);		
 				})
 				.error(function (error) {
 					$scope.errorInfo = error;
@@ -82,4 +83,38 @@ angular.module('techFeast')
 			return TimeFormatter.formatTimeRange(time);
 		};
 
+    })
+    .controller('eventNewCtrl', function ($scope, $routeParams, $http, $location, eventUrl, eventNewUrl){
+    	
+    	$scope.data = {};
+    	$scope.data.event = { id: null};
+    	$scope.data.presentations = [];
+
+        $scope.removePresentation = function (index) {
+        	$scope.data.presentations.splice(index, 1);
+        };
+
+        $scope.addPresentation = function() {
+            $scope.data.presentations.push(createEmptyPresentation());
+        };
+
+        $scope.back = function () {
+			$location.path('/events');
+		};
+
+		var createEmptyPresentation = function () {
+        	return {id: null, name: null, time: null, presenters: null, eventId: null};
+        };
+
+        $scope.error = '';
+
+    	$scope.saveEvent = function () {
+    		$http.post(eventNewUrl, $scope.data)
+    			.success(function () {
+    				$location.path('/events');
+    			})
+    			.error(function (error) {
+    				$scope.error = error;
+    			});
+    	};
     });
