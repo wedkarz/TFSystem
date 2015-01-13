@@ -29,5 +29,4 @@ angular.module('techFeast')
 		$scope.createEvent = function () {
 			$location.path(eventNewUrl);
 		}
-
 	});
