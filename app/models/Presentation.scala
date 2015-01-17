@@ -29,21 +29,17 @@ object PresentationsManager {
   // we have to consider three cases: entirely new presentation, which should be saved (has no id yet),
   // presentation which should be updated (has id already) and presentation to delete (also has id) 
   
-def updatePresentations(newPresentations: List[Presentation], eventId: Long) = {
+  def updatePresentations(newPresentations: List[Presentation], eventId: Long) = {
     val oldPresentations = EventsManager.getEventWithPresentations(eventId).presentations.get
     val presentationsToDelete = filterPresentationsToDelete(newPresentations, oldPresentations)
     
-    for (p <- newPresentations) {
-      if (p.id == None) {    	  
-    	  insertPresentation(p)
-      }
-      else
-    	  updatePresentation(p)
-    }
+    newPresentations.map(p => p.id match {
+      case None => insertPresentation(p)
+      case _ => updatePresentation(p)
+    })
     
-    for (p <- presentationsToDelete) {
-      deletePresentation(p)
-    }
+    presentationsToDelete.map(p => deletePresentation(p))
+    
   }
 
 def savePresentations(newPresentations : List[Presentation], eventId: Long) = {
@@ -52,8 +48,6 @@ def savePresentations(newPresentations : List[Presentation], eventId: Long) = {
     }
   }
   
-
-
   // finding those presentations which should be deleted; we map a list of new presentations to a list 
   // of ids and then we remove from old presentations List those which are contained in the new presentations list
   
@@ -73,12 +67,6 @@ def savePresentations(newPresentations : List[Presentation], eventId: Long) = {
     }
   }
    
-  def insertOrUpdate(presentation: Presentation) = {
-    DatabaseConfig.db.withSession { implicit session =>
-      presentations.insertOrUpdate(presentation)
-    }
-  }
-
   def deletePresentation(presentation: Presentation) = {
     DatabaseConfig.db.withSession { implicit session =>
       	val query = presentations.filter(_.id === presentation.id.get)

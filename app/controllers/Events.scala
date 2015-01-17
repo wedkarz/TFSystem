@@ -46,6 +46,7 @@ object Events extends Controller {
     val newEventId = EventsManager.insertEvent(toSave.event)
     PresentationsManager.savePresentations(toSave.presentations.get, newEventId)
     Ok(Json.toJson("success"))
+
   }
 )
 }
