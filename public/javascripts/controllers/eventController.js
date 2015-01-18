@@ -3,12 +3,12 @@ angular.module('techFeast')
 	.constant('eventUpdateUrl', '/event/')
 	.controller('eventEditCtrl', function ($scope, $routeParams, $http, $location, eventUrl, eventUpdateUrl){
 		
-		var id = $routeParams.id;
+		$scope.id = $routeParams.id;
 
 		$scope.data = {};
 		$scope.errorInfo = '';		
 
-		$http.get(eventUrl + $routeParams.id)
+		$http.get(eventUrl + $scope.id)
 			.success(function (data) {
 				$scope.data = data;
 				$scope.data.event.date = formatDate($scope.data.event.date);
@@ -21,7 +21,7 @@ angular.module('techFeast')
 			
 			$scope.data.event.date.setDate($scope.data.event.date.getDate() + 1);
 
-			$http.put(eventUpdateUrl + $routeParams.id, $scope.data)
+			$http.put(eventUpdateUrl + $scope.id, $scope.data)
 				.success(function () {
 					$location.path('/events');		
 				})
@@ -43,7 +43,7 @@ angular.module('techFeast')
         }
 
         var createEmptyPresentation = function () {
-        	return {id: null, name: null, time: null, presenters: null, eventId: parseInt($routeParams.id)};
+        	return {id: null, name: null, time: null, presenters: null, eventId: parseInt($scope.id)};
         };
 
         var formatDate = function (milliseconds)	{
