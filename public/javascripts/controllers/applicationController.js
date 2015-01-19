@@ -87,6 +87,14 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable", "t
             }
         });
 
+        $routeProvider.when("/notifications", {
+            templateUrl: "javascripts/views/notifications.html",
+            controller: "notificationsCtrl",
+            data: {
+                authorizedRole: USER_ROLES.superorganizer
+            }
+        });
+
         $routeProvider.otherwise({
             templateUrl: "javascripts/views/eventList.html",
             controller: "eventListCtrl",

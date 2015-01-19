@@ -48,4 +48,18 @@
             </div>
         </div>
     </div>
+        <div class="col-sm-6 col-md-4" ng-if="isAuthorizedRole(userRoles.superorganizer)">
+        <div class="thumbnail panel panel-info" id="importPanelInfo">
+            <div class="panel-heading">
+                <h3 class="panel-title">Powiadomienia</h3>
+            </div>
+            <div class="panel-body">
+            <img src="images/notifications-icon.jpeg">
+                <div class="caption">
+                    <p>Definiuj i wysyłaj powiadomienia</p>                    
+                    <p><a href="#/notifications" class="btn btn-primary" role="button" style="margin-top: 90px;">Sprawuj rządy</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

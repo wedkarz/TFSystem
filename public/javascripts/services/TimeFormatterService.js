@@ -57,4 +57,8 @@ angular.module("techFeast")
 
             return hourOne + minuteOneStr + " " + AMPMOne + " - " + hourTwo + minuteTwoStr + " " + AMPMTwo;
 		};
+
+        this.formatDate = function (milliseconds) {
+            return new Date(milliseconds).toLocaleDateString();
+        }
     });
