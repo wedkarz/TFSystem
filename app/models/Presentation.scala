@@ -41,6 +41,12 @@ object PresentationsManager {
     presentationsToDelete.map(p => deletePresentation(p))
     
   }
+
+def savePresentations(newPresentations : List[Presentation], eventId: Long) = {
+    for (p <- newPresentations) {
+      insertPresentation(p.copy(id = None, eventId = Some(eventId)))
+    }
+  }
   
   // finding those presentations which should be deleted; we map a list of new presentations to a list 
   // of ids and then we remove from old presentations List those which are contained in the new presentations list

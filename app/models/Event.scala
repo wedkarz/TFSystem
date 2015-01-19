@@ -63,6 +63,13 @@ object EventsManager {
     distinctEvents.map(event => EventWithPresentations(event, Some(presentations.filter(p => p.eventId == event.id))))
   }
   
+  def insertEvent(event: Event) = {
+    DatabaseConfig.db.withSession { implicit session =>
+      val newId = (events returning events.map(_.id)) += event
+      newId
+    }
+  } 
+  
 }
 
 

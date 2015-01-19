@@ -1,0 +1,91 @@
+<br>
+<div id="addEventForm">
+    <div class="well">
+        <h1>Create Event</h1>
+
+        <form class="form-horizontal" name="eventForm" novalidate>
+            
+            <div class="control-group">
+                <label class="control-label" for="date" style="font-size: 15pt">Data:</label>
+                <div class="controls">
+                    <input type="date" id="date" ng-model="data.event.date" required/>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="place" style="font-size: 15pt">Miejsce:</label>
+                <div class="controls">
+                    <input type="text" id="place" ng-model="data.event.place"/>
+                </div>
+            </div>
+
+            <br/>            
+            <h2>Dodaj prezentację</h2>
+
+            <div id="addPresentations" class="container-fluid">
+                <div class="row">
+                    <div class="col-md-2">Czas </div>
+                    <div class="col-md-2">Nazwa </div>
+                    <div class="col-md-3">Prezenterzy </div>
+                    <div class="col-md-4">Opis </div>
+                    <div class="col-md-1">  </div>
+                </div>
+                <div ng-repeat="presentation in data.presentations" class="row">
+                    
+                    <!--<div class="row form-inline"> -->
+                    
+                        <!--<div class="form-group">-->
+                             
+                        <div class="col-md-2"> 
+                            <input type="text" class="form-control" name="time" id="time" ng-model="presentation.time" required />
+                        </div>
+
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" name="name" id="name" ng-model="presentation.name" required/>
+                        </div>
+
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" name="presenters" id="presenters" ng-model="presentation.presenters" required />         
+                        </div>
+
+                        <div class="col-md-4">                             
+                            <textarea class="form-control" name="description" id="description" ng-model="presentation.description" required></textarea>
+                        </div>
+
+                       <div class="col-md-1">
+
+                     
+                        <a class="btn btn-danger" ng-click="removePresentation($index)">Usuń</a>
+                        </div>
+                        <hr/>
+                       <!-- </div> -->
+
+                   <!-- </div>  -->
+                </div>     
+
+
+                           
+               <div class="row">
+              <div class="col-md-2"> <span ng-show="eventForm.time.$error.required" class="formWarnings">Brak czasu</span></div>
+              <div class="col-md-2">  <span ng-show="eventForm.name.$error.required" class="formWarnings">Brak nazwy</span></div>
+              <div class="col-md-3">  <span ng-show="eventForm.presenters.$error.required" class="formWarnings">Brak prezenterów</span></div>
+              <div class="col-md-4">   <span ng-show="eventForm.description.$error.required" class="formWarnings">Brak opisu</span> </div>
+              <div class="col-md-1"> </div>
+            </div>
+
+                </div>
+                <br/>
+                <br/>
+                <a class="btn btn-success" ng-click="addPresentation()">Dodaj prezentację</a>
+            </div>
+            <br>
+            
+            <div class="control-group">
+                <div class="controls">
+                    <a ng-click="back()" class="btn btn-info">Powrót</a>
+                    <a ng-click="saveEvent()" class="btn btn-small btn-primary" ng-disabled="eventForm.$invalid">Dodaj wydarzenie</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

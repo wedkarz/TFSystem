@@ -1,6 +1,7 @@
 angular.module('techFeast')
 	.constant('eventListUrl', '/eventList')
-	.controller('eventListCtrl', function ($scope, $http, $location, eventListUrl){
+	.constant('eventNewUrl', '/event/new')
+	.controller('eventListCtrl', function ($scope, $http, $location, eventListUrl, eventNewUrl){
 
 		$scope.data = {};
 		$scope.errorInfo = '';
@@ -25,4 +26,7 @@ angular.module('techFeast')
 			$location.path('/event/' + eventId);
 		}
 
+		$scope.createEvent = function () {
+			$location.path(eventNewUrl);
+		}
 	});

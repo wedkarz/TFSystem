@@ -47,6 +47,11 @@ angular.module("techFeast", ["ngRoute", "ngCookies", "ngResource", "ngTable", "t
             }
         });
 
+		   $routeProvider.when("/event/new", {
+            templateUrl: "javascripts/views/eventNew.html",
+            controller: "eventNewCtrl"
+        });
+
         $routeProvider.when("/event/:id", {
             templateUrl: "javascripts/views/eventDetails.html",
             controller: "eventDetailsCtrl",

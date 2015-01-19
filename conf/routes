@@ -9,6 +9,8 @@ GET		/eventList			 				controllers.Events.getAllEvents()
 
 GET		/event/:id							controllers.Events.getEvent(id: Long)
 
+POST	/event/new							controllers.Events.saveEvent
+
 PUT		/event/:id							controllers.Events.updateEvent(id: Long)
 
 # Users

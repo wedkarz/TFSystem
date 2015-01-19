@@ -40,4 +40,13 @@ object Events extends Controller {
       Ok(Json.toJson("success"))
     }
   )
+
+ def saveEvent =  AuthorizedAction(UserRoles.Organizer, Action { implicit request =>
+    val toSave = request.body.asJson.get.as[EventWithPresentations]
+    val newEventId = EventsManager.insertEvent(toSave.event)
+    PresentationsManager.savePresentations(toSave.presentations.get, newEventId)
+    Ok(Json.toJson("success"))
+
+  }
+)
 }

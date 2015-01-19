@@ -46,3 +46,8 @@
 #usersImport {
 	margin-left: 10%;
 }
+
+.formWarnings {
+	font-size: 14px;
+	color: #990000;
+}
