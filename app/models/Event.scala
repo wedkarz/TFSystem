@@ -16,7 +16,7 @@ class Events(tag: Tag) extends Table[Event](tag, "EVENTS") {
   def date = column[Date]("DATE")
   def place = column[String]("PLACE")
   
-  def * =  (id.?, date, place) <> (Event.tupled, Event.unapply _)  
+  def * = (id.?, date, place) <> (Event.tupled, Event.unapply _)  
     
 }
 

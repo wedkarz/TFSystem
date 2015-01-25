@@ -1,0 +1,103 @@
+<br/>
+<br/>
+<div class="page-header">
+    <h2>Powiadomienia</h2>
+</div>
+
+<br/>
+
+<div class="row">
+	<div class="col-md-12">
+	    <div class="table-responsive">
+	        <table class="table table-striped">
+	            <thead>
+	            <tr>
+	                <th>Rola</th>
+	                <th>Czas wysłania przed wydarzeniem</th>
+	                <th>Szablon</th>
+	                <th>Wydarzenia o dacie</th>
+	            </tr>
+	            </thead>
+	            <tbody>
+	            	<tr ng-repeat="notification in data" ng-include="getTemplate(notification)"></tr>
+	            </tbody>
+	        </table>
+	        <br/>
+	        <button class="btn btn-info" ng-click="add()" ng-show="!isAdding">Dodaj powiadomienie</button>
+	        <br>
+	        <form name="newNotificationForm" ng-show="isAdding">
+	        	<h2>Nowe powiadomienie</h2>
+				<table class="table table-striped">
+	            	<thead>
+	            		<tr>	                
+		                	<th>Rola</th>
+		                	<th>Czas wysłania przed wydarzeniem</th>
+	                		<th>Szablon</th>
+	                		<th>id wydarzenia</th>
+	            		</tr>
+	            	</thead>
+	            	<tbody>
+	            		<tr>
+							<td>
+								<select class="form-control-static" ng-model="newNotification.role" required>
+									<option ng-repeat="userRole in allUserRoles|property:'value':'!'" value="{{userRole.value}}">{{userRole.name}}</option>
+								</select>
+							</td>
+							<td>
+								<input type="text" class="form-control-static" ng-model="newNotification.sendTime" required/>	
+							</td>
+							<td>
+								<input type="text" class="form-control-static" ng-model="newNotification.template" required/>
+							</td>
+							<td>
+								<select class="form-control-static" ng-model="newNotification.eventId" required>
+									<option ng-repeat="event in events" value="{{event.event.id}}">{{formatDate(event.event.date)}}</option>
+								</select>
+							</td>
+	            		</tr>
+	            	</tbody>
+	        	</table>
+
+		        <div class="control-group">
+                	<div class="controls">
+                    	<a ng-click="cancelAdd()" class="btn btn-info">Anuluj</a>
+                    	<a ng-click="save()" class="btn btn-small btn-primary" ng-disabled="newNotificationForm.$invalid">Zapisz</a>
+                	</div>
+            	</div>
+            </form>
+	    </div>
+	</div>
+</div>
+
+<script type="text/ng-template" id="display">
+	<td data-title="'role'" sortable="'role'">{{getRoleName(notification.role)}}</td>	
+	<td data-title="'sendTime'" sortable="'sendTime'">{{notification.sendTime}}</td>
+	<td data-title="'template'" sortable="'template'">{{notification.template}}</td>
+	<td data-title="'eventId'" sortable="'eventId'">{{formatDate(getEventDateById(notification.eventId))}}</td>
+	<td><button class="btn btn-default" ng-click="edit(notification)">Edytuj</button>
+	<button class="btn btn-danger" ng-click="delete(notification.id)">Usuń</button></td>
+</script>
+<script type="text/ng-template" id="edit">
+    <form class="form-inline" role="form">
+		<td>
+			<select class="form-control-static" ng-model="editedNotification.role" required>
+				<option ng-repeat="userRole in allUserRoles|property:'value':'!'" value="{{userRole.value}}">{{userRole.name}}</option>
+			</select>
+		</td>
+		<td>
+			<input type="text" class="form-control-static" ng-model="editedNotification.sendTime" required/>	
+		</td>
+		<td>
+			<input type="text" class="form-control-static" ng-model="editedNotification.template" required/>
+		</td>
+		<td>
+			<select class="form-control-static" ng-model="editedNotification.eventId" required>
+				<option ng-repeat="event in events" value="{{event.event.id}}">{{formatDate(event.event.date)}}</option>
+			</select>
+		</td>
+    	<td>
+    		<input type="button" value="Anuluj" ng-click="cancelEdit()" class="btn btn-default">
+        	<input type="button" value="Zapisz" ng-click="update()" class="btn btn-success">
+        </td>
+    </form>
+</script>
